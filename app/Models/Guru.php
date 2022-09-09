@@ -4,26 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Kelas;
 
-class Siswa extends Model
+class Guru extends Model
 {
     use HasFactory;
 
-    protected $table = "siswa";
+    protected $table = "guru";
     protected $primaryKey = "id";
     protected $fillable = [
-        'nis',
-        'nama_siswa',
-        'kelas_id',
-        'jenis_kelamin',
-        'no_telp',
+        'nip',
+        'nama_guru',
         'tmpt_lahir',
         'tgl_lahir',
+        'no_telp',
         'foto',
-        'nama_ortu',
-        'pekerjaan',
-        'tahun_masuk',
+        'email',
         'agama',
+        'pangkat_golongan',
         'alamat',
     ];
 

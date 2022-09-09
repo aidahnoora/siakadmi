@@ -5,4 +5,4 @@
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2022 <a href="#">Sistem Informasi Akademik</a>.</strong> All rights reserved.
-  </footer>
+</footer>

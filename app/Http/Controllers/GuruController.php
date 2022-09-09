@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kelas;
 use Illuminate\Http\Request;
-use App\Models\Siswa;
+use App\Models\Guru;
 
-class SiswaController extends Controller
+class GuruController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswas = Siswa::orderBy('created_at', 'DESC')->get();
+        $gurus = Guru::orderBy('created_at', 'DESC')->get();
 
-        return view('pages.siswa.index', compact('siswas'));
+        return view('pages.guru.index', compact('gurus'));
     }
 
     /**
@@ -27,9 +26,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        $kelass = Kelas::get();
-
-        return view('pages.siswa.create', compact('kelass'));
+        return view('pages.guru.create');
     }
 
     /**
@@ -41,43 +38,37 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nis' => 'required',
-            'nama_siswa' => 'required',
-            'kelas_id' => 'required',
-            'jenis_kelamin' => 'required',
-            'no_telp' => 'required',
+            'nip',
+            'nama_guru' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
+            'no_telp' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nama_ortu' => 'required',
-            'pekerjaan' => 'required',
-            'tahun_masuk' => 'required',
+            'email' => 'required',
             'agama' => 'required',
+            'pangkat_golongan',
             'alamat' => 'required',
         ]);
 
         $foto = $request->foto;
         $new_foto = time().$foto->getClientOriginalName();
 
-        Siswa::create([
-            'nis' => $request->nis,
-            'nama_siswa' => $request->nama_siswa,
-            'kelas_id' => $request->kelas_id,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'no_telp' => $request->no_telp,
+        Guru::create([
+            'nip' => $request->nip,
+            'nama_guru' => $request->nama_guru,
             'tmpt_lahir' => $request->tmpt_lahir,
             'tgl_lahir' => $request->tgl_lahir,
+            'no_telp' => $request->no_telp,
             'foto' => '/foto/'.$new_foto,
-            'nama_ortu' => $request->nama_ortu,
-            'pekerjaan' => $request->pekerjaan,
-            'tahun_masuk' => $request->tahun_masuk,
+            'email' => $request->email,
             'agama' => $request->agama,
+            'pangkat_golongan' => $request->pangkat_golongan,
             'alamat' => $request->alamat,
         ]);
 
         $foto->move('foto/', $new_foto);
 
-        return redirect('siswa');
+        return redirect('guru');
     }
 
     /**
@@ -99,10 +90,9 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        $siswas = Siswa::findorfail($id);
-        $kelass = Kelas::get();
+        $gurus = Guru::findorfail($id);
 
-        return view('pages.siswa.edit', compact(['siswas', 'kelass']));
+        return view('pages.guru.edit', compact('gurus'));
     }
 
     /**
@@ -115,22 +105,19 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nis' => 'required',
-            'nama_siswa' => 'required',
-            'kelas_id' => 'required',
-            'jenis_kelamin' => 'required',
-            'no_telp' => 'required',
+            'nip',
+            'nama_guru' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
+            'no_telp' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nama_ortu' => 'required',
-            'pekerjaan' => 'required',
-            'tahun_masuk' => 'required',
+            'email' => 'required',
             'agama' => 'required',
+            'pangkat_golongan',
             'alamat' => 'required',
         ]);
 
-        $post = Siswa::findorfail($id);
+        $post = Guru::findorfail($id);
 
         if ($request->has('foto')) {
             $foto = $request->foto;
@@ -138,41 +125,35 @@ class SiswaController extends Controller
             $foto->move('/foto/', $new_foto);
 
             $post_data = [
-                'nis' => $request->nis,
-                'nama_siswa' => $request->nama_siswa,
-                'kelas_id' => $request->kelas_id,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'no_telp' => $request->no_telp,
+                'nip' => $request->nip,
+                'nama_guru' => $request->nama_guru,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
+                'no_telp' => $request->no_telp,
                 'foto' => '/foto/'.$new_foto,
-                'nama_ortu' => $request->nama_ortu,
-                'pekerjaan' => $request->pekerjaan,
-                'tahun_masuk' => $request->tahun_masuk,
+                'email' => $request->email,
                 'agama' => $request->agama,
+                'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
             ];
         }
         else {
             $post_data = [
-                'nis' => $request->nis,
-                'nama_siswa' => $request->nama_siswa,
-                'kelas_id' => $request->kelas_id,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'no_telp' => $request->no_telp,
+                'nip' => $request->nip,
+                'nama_guru' => $request->nama_guru,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
-                'nama_ortu' => $request->nama_ortu,
-                'pekerjaan' => $request->pekerjaan,
-                'tahun_masuk' => $request->tahun_masuk,
+                'no_telp' => $request->no_telp,
+                'email' => $request->email,
                 'agama' => $request->agama,
+                'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
             ];
         }
 
         $post->update($post_data);
 
-        return redirect('siswa');
+        return redirect('guru');
     }
 
     /**
@@ -183,9 +164,9 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswas = Siswa::find($id);
-        $siswas->delete();
+        $gurus = Guru::find($id);
+        $gurus->delete();
 
-        return redirect('siswa');
+        return redirect('guru');
     }
 }

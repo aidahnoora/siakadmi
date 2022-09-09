@@ -5,5 +5,5 @@
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2022 <a href="#">Sistem Informasi Akademik</a>.</strong> All rights reserved.
-  </footer>
+</footer>
 <?php /**PATH C:\xampp\htdocs\siakad\resources\views/layouts/footer.blade.php ENDPATH**/ ?>

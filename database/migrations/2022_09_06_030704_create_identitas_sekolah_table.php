@@ -15,7 +15,7 @@ class CreateIdentitasSekolahTable extends Migration
     {
         Schema::create('identitas_sekolah', function (Blueprint $table) {
             $table->id();
-            $table->string('npsn');
+            $table->string('npsn')->unique()->nullable();
             $table->string('nama_sekolah');
             $table->text('alamat');
             $table->string('kabupaten');
