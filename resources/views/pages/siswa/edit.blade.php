@@ -92,7 +92,7 @@
                                             <label for="foto">Upload Foto</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <img src="{{ asset($siswas->foto) }}" width="100" height="auto">
+                                                    <img src="{{ Storage::url('public/foto/').$siswas->foto }}" width="100" height="auto">
                                                 </div>
                                                 <div class="col-md-8">
                                                     <input type="file" accept="image/*" name="foto" class="form-control" autofocus>

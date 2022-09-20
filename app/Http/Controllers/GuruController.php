@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
 {
@@ -43,32 +44,35 @@ class GuruController extends Controller
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
             'no_telp' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'email' => 'required',
             'agama' => 'required',
             'pangkat_golongan',
             'alamat' => 'required',
         ]);
 
-        $foto = $request->foto;
-        $new_foto = time().$foto->getClientOriginalName();
+        $foto = $request->file('foto');
+        $foto->storeAs('public/foto', $foto->hashName());
 
-        Guru::create([
+        $guru = Guru::create([
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
             'tmpt_lahir' => $request->tmpt_lahir,
             'tgl_lahir' => $request->tgl_lahir,
             'no_telp' => $request->no_telp,
-            'foto' => '/foto/'.$new_foto,
+            'foto' => $foto->hashName(),
             'email' => $request->email,
             'agama' => $request->agama,
             'pangkat_golongan' => $request->pangkat_golongan,
             'alamat' => $request->alamat,
         ]);
 
-        $foto->move('foto/', $new_foto);
+        if ($guru) {
+            return redirect('guru')->with(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return redirect('guru')->with(['error' => 'Data gagal disimpan!']);
+        }
 
-        return redirect('guru');
     }
 
     /**
@@ -117,43 +121,45 @@ class GuruController extends Controller
             'alamat' => 'required',
         ]);
 
-        $post = Guru::findorfail($id);
+        $guru = Guru::findorfail($id);
 
-        if ($request->has('foto')) {
-            $foto = $request->foto;
-            $new_foto = time().$foto->getClientOriginalName();
-            $foto->move('/foto/', $new_foto);
-
-            $post_data = [
+        if ($request->file('foto') == "") {
+            $guru->update([
                 'nip' => $request->nip,
                 'nama_guru' => $request->nama_guru,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
                 'no_telp' => $request->no_telp,
-                'foto' => '/foto/'.$new_foto,
                 'email' => $request->email,
                 'agama' => $request->agama,
                 'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
-            ];
+            ]);
         }
         else {
-            $post_data = [
+            Storage::disk('local')->delete('public/foto/'.$guru->foto);
+
+            $foto = $request->file('foto');
+            $foto->storeAs('public/foto', $foto->hashName());
+            $guru->update([
                 'nip' => $request->nip,
                 'nama_guru' => $request->nama_guru,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
                 'no_telp' => $request->no_telp,
+                'foto' => $foto->hashName(),
                 'email' => $request->email,
                 'agama' => $request->agama,
                 'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
-            ];
+            ]);
         }
 
-        $post->update($post_data);
-
-        return redirect('guru');
+        if ($guru) {
+            return redirect('guru')->with(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return redirect('guru')->with(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**

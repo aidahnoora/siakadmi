@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -48,7 +49,7 @@ class SiswaController extends Controller
             'no_telp' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'nama_ortu' => 'required',
             'pekerjaan' => 'required',
             'tahun_masuk' => 'required',
@@ -56,10 +57,10 @@ class SiswaController extends Controller
             'alamat' => 'required',
         ]);
 
-        $foto = $request->foto;
-        $new_foto = time().$foto->getClientOriginalName();
+        $foto = $request->file('foto');
+        $foto->storeAs('public/foto', $foto->hashName());
 
-        Siswa::create([
+        $siswa = Siswa::create([
             'nis' => $request->nis,
             'nama_siswa' => $request->nama_siswa,
             'kelas_id' => $request->kelas_id,
@@ -67,7 +68,7 @@ class SiswaController extends Controller
             'no_telp' => $request->no_telp,
             'tmpt_lahir' => $request->tmpt_lahir,
             'tgl_lahir' => $request->tgl_lahir,
-            'foto' => '/foto/'.$new_foto,
+            'foto' => $foto->hashName(),
             'nama_ortu' => $request->nama_ortu,
             'pekerjaan' => $request->pekerjaan,
             'tahun_masuk' => $request->tahun_masuk,
@@ -75,9 +76,11 @@ class SiswaController extends Controller
             'alamat' => $request->alamat,
         ]);
 
-        $foto->move('foto/', $new_foto);
-
-        return redirect('siswa');
+        if ($siswa) {
+            return redirect('siswa')->with(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return redirect('siswa')->with(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -122,7 +125,7 @@ class SiswaController extends Controller
             'no_telp' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'nama_ortu' => 'required',
             'pekerjaan' => 'required',
             'tahun_masuk' => 'required',
@@ -130,14 +133,10 @@ class SiswaController extends Controller
             'alamat' => 'required',
         ]);
 
-        $post = Siswa::findorfail($id);
+        $siswa = Siswa::findorfail($id);
 
-        if ($request->has('foto')) {
-            $foto = $request->foto;
-            $new_foto = time().$foto->getClientOriginalName();
-            $foto->move('/foto/', $new_foto);
-
-            $post_data = [
+        if ($request->file('foto') == "") {
+            $siswa->update([
                 'nis' => $request->nis,
                 'nama_siswa' => $request->nama_siswa,
                 'kelas_id' => $request->kelas_id,
@@ -145,16 +144,19 @@ class SiswaController extends Controller
                 'no_telp' => $request->no_telp,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
-                'foto' => '/foto/'.$new_foto,
                 'nama_ortu' => $request->nama_ortu,
                 'pekerjaan' => $request->pekerjaan,
                 'tahun_masuk' => $request->tahun_masuk,
                 'agama' => $request->agama,
                 'alamat' => $request->alamat,
-            ];
+            ]);
         }
         else {
-            $post_data = [
+            Storage::disk('local')->delete('public/foto/'.$siswa->foto);
+
+            $foto = $request->file('foto');
+            $foto->storeAs('public/foto', $foto->hashName());
+            $siswa->update([
                 'nis' => $request->nis,
                 'nama_siswa' => $request->nama_siswa,
                 'kelas_id' => $request->kelas_id,
@@ -162,17 +164,20 @@ class SiswaController extends Controller
                 'no_telp' => $request->no_telp,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
+                'foto' => $foto->hashName(),
                 'nama_ortu' => $request->nama_ortu,
                 'pekerjaan' => $request->pekerjaan,
                 'tahun_masuk' => $request->tahun_masuk,
                 'agama' => $request->agama,
                 'alamat' => $request->alamat,
-            ];
+            ]);
         }
 
-        $post->update($post_data);
-
-        return redirect('siswa');
+        if ($siswa) {
+            return redirect('siswa')->with(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return redirect('siswa')->with(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**

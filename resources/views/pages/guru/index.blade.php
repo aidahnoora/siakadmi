@@ -55,7 +55,7 @@
                                     @foreach ($gurus as $item)
                                     <tr>
                                         <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
-                                        <td><img src="{{ asset($item->foto) }}" width="50" height="auto"></td>
+                                        <td><img src="{{ Storage::url('public/foto/').$item->foto }}" width="50" height="auto"></td>
                                         <td>{{ $item->nip }}</td>
                                         <td>{{ $item->nama_guru }}</td>
                                         <td class="text-center">

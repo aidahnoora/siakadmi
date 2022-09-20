@@ -98,13 +98,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/profil_sekolah" class="nav-link">
+                            <a href="/sekolah" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profil Sekolah</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/profilku" class="nav-link">
+                            <a href="/profil" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profilku</p>
                             </a>
