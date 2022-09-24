@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Content Header (Page header) -->
             @yield('breadcrumbs')
             <!-- /.content-header -->
-
+            @include('sweetalert::alert')
             <!-- Main content -->
             @yield('content')
             <!-- /.content -->

@@ -101,7 +101,11 @@ class KelasController extends Controller
 
         $post->update($post_data);
 
-        return redirect('kelas');
+        if ($post) {
+            return redirect('kelas')->with('success', 'Data berhasil diperbarui!');
+        } else {
+            return redirect('kelas')->with('error', 'Data gagal diperbarui!');
+        }
     }
 
     /**
@@ -115,6 +119,6 @@ class KelasController extends Controller
         $kelass = Kelas::find($id);
         $kelass->delete();
 
-        return redirect('kelas');
+        return redirect('kelas')->with('success', 'Data berhasil dihapus!');
     }
 }

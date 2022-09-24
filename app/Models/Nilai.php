@@ -12,9 +12,27 @@ class Nilai extends Model
     protected $table = "nilai";
     protected $primaryKey = "id";
     protected $fillable = [
+        'kelas_id',
+        'siswa_id',
+        'mapel_id',
         'tugas',
         'rata_uh',
         'uts',
         'uas',
     ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class)->withDefault();
+    }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class);
+    }
 }

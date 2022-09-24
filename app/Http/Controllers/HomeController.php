@@ -57,6 +57,10 @@ class HomeController extends Controller
 
         $post->update($post_data);
 
-        return redirect('profil');
+        if ($post) {
+            return redirect('profil')->with('success', 'Data berhasil diperbarui!');
+        } else {
+            return redirect('profil')->with('error', 'Data gagal diperbarui!');
+        }
     }
 }

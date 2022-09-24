@@ -101,7 +101,11 @@ class MapelController extends Controller
 
         $post->update($post_data);
 
-        return redirect('mapel');
+        if ($post) {
+            return redirect('mapel')->with('success', 'Data berhasil diperbarui!');
+        } else {
+            return redirect('mapel')->with('error', 'Data gagal diperbarui!');
+        }
     }
 
     /**
@@ -115,6 +119,6 @@ class MapelController extends Controller
         $mapels = Mapel::find($id);
         $mapels->delete();
 
-        return redirect('mapel');
+        return redirect('mapel')->with('success', 'Data berhasil dihapus!');
     }
 }

@@ -36,7 +36,7 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/guru" class="btn btn-primary">Kembali</a>
+                                <a href="/guru" class="btn btn-success">Kembali</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -85,12 +85,36 @@
                                         <div class="form-group">
                                             <label for="agama">Agama</label>
                                             <select name="agama" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Agama --</option>
                                                 <option value="Islam" {{ $gurus->agama == 'Islam'? 'selected': ''}}>Islam</option>
                                                 <option value="Kristen" {{ $gurus->agama == 'Kristen'? 'selected': ''}}>Kristen</option>
                                                 <option value="Khatolik" {{ $gurus->agama == 'Khatolik'? 'selected': ''}}>Khatolik</option>
                                                 <option value="Hindu" {{ $gurus->agama == 'Hindu'? 'selected': ''}}>Hindu</option>
                                                 <option value="Buddha" {{ $gurus->agama == 'Buddha'? 'selected': ''}}>Buddha</option>
                                                 <option value="Kong Hu Cu" {{ $gurus->agama == 'Kong Hu Cu'? 'selected': ''}}>Khong Hu Cu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="jns_kelamin">Jenis Kelamin</label>
+                                            <select name="jns_kelamin" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Jenis Kelamin --</option>
+                                                <option value="Laki-laki" {{ $gurus->jns_kelamin == 'Laki-laki'? 'selected': ''}}>Laki-laki</option>
+                                                <option value="Perempuan" {{ $gurus->jns_kelamin == 'Perempuan'? 'selected': ''}}>Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mapel_id">Mata Pelajaran</label>
+                                            <select class="form-control" id="mapel_id" name="kelas_id">
+                                                <option value="" selected>-- Pilih Mata Pelajaran --</option>
+                                                @foreach ($mapels as $mapel)
+                                                <option value="{{ $mapel->id }}" {{ $gurus->mapel_id == $mapel->id ? 'selected' : '' }}>{{ $mapel->nama_mapel }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -138,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                    <button class="btn btn-primary" type="submit">Update</button>
                                 </div>
                             </form>
                         </div>

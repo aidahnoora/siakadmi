@@ -16,9 +16,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswas = Siswa::orderBy('created_at', 'DESC')->get();
+        $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
 
-        return view('pages.siswa.index', compact('siswas'));
+        return view('pages.siswa.index', compact('kelass'));
     }
 
     /**
@@ -42,10 +42,11 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'nomor_induk' => 'required',
             'nis' => 'required',
             'nama_siswa' => 'required',
             'kelas_id' => 'required',
-            'jenis_kelamin' => 'required',
+            'jns_kelamin' => 'required',
             'no_telp' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
@@ -61,10 +62,11 @@ class SiswaController extends Controller
         $foto->storeAs('public/foto', $foto->hashName());
 
         $siswa = Siswa::create([
+            'nomor_induk' => $request->nomor_induk,
             'nis' => $request->nis,
             'nama_siswa' => $request->nama_siswa,
             'kelas_id' => $request->kelas_id,
-            'jenis_kelamin' => $request->jenis_kelamin,
+            'jns_kelamin' => $request->jns_kelamin,
             'no_telp' => $request->no_telp,
             'tmpt_lahir' => $request->tmpt_lahir,
             'tgl_lahir' => $request->tgl_lahir,
@@ -91,7 +93,10 @@ class SiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $kelass = Kelas::findorfail($id);
+        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->where('kelas_id', $id)->get();
+
+        return view('pages.siswa.show', compact(['kelass', 'siswas']));
     }
 
     /**
@@ -118,10 +123,11 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'nomor_induk' => 'required',
             'nis' => 'required',
             'nama_siswa' => 'required',
             'kelas_id' => 'required',
-            'jenis_kelamin' => 'required',
+            'jns_kelamin' => 'required',
             'no_telp' => 'required',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
@@ -137,10 +143,11 @@ class SiswaController extends Controller
 
         if ($request->file('foto') == "") {
             $siswa->update([
+                'nomor_induk' => $request->nomor_induk,
                 'nis' => $request->nis,
                 'nama_siswa' => $request->nama_siswa,
                 'kelas_id' => $request->kelas_id,
-                'jenis_kelamin' => $request->jenis_kelamin,
+                'jns_kelamin' => $request->jns_kelamin,
                 'no_telp' => $request->no_telp,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
@@ -157,10 +164,11 @@ class SiswaController extends Controller
             $foto = $request->file('foto');
             $foto->storeAs('public/foto', $foto->hashName());
             $siswa->update([
+                'nomor_induk' => $request->nomor_induk,
                 'nis' => $request->nis,
                 'nama_siswa' => $request->nama_siswa,
                 'kelas_id' => $request->kelas_id,
-                'jenis_kelamin' => $request->jenis_kelamin,
+                'jns_kelamin' => $request->jns_kelamin,
                 'no_telp' => $request->no_telp,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
@@ -174,9 +182,9 @@ class SiswaController extends Controller
         }
 
         if ($siswa) {
-            return redirect('siswa')->with(['success' => 'Data berhasil disimpan!']);
+            return redirect('siswa')->with('success', 'Data berhasil diperbarui!');
         } else {
-            return redirect('siswa')->with(['error' => 'Data gagal disimpan!']);
+            return redirect('siswa')->with('error', 'Data gagal diperbarui!');
         }
     }
 
@@ -191,6 +199,6 @@ class SiswaController extends Controller
         $siswas = Siswa::find($id);
         $siswas->delete();
 
-        return redirect('siswa');
+        return redirect('siswa')->with('success', 'Data berhasil dihapus!');
     }
 }

@@ -18,8 +18,10 @@ class CreateGuruTable extends Migration
             $table->string('nip')->unique()->nullable();
             $table->string('nama_guru');
             $table->string('pangkat_golongan')->nullable();
+            $table->foreignId('mapel_id')->nullable();
             $table->string('tmpt_lahir');
             $table->string('tgl_lahir');
+            $table->string('jns_kelamin');
             $table->string('no_telp');
             $table->string('foto');
             $table->string('email');

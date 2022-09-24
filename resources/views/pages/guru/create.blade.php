@@ -36,7 +36,7 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/guru" class="btn btn-primary">Kembali</a>
+                                <a href="/guru" class="btn btn-success">Kembali</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -77,12 +77,36 @@
                                         <div class="form-group">
                                             <label for="agama">Agama</label>
                                             <select name="agama" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Agama --</option>
                                                 <option value="Islam">Islam</option>
                                                 <option value="Kristen">Kristen</option>
                                                 <option value="Khatolik">Khatolik</option>
                                                 <option value="Hindu">Hindu</option>
                                                 <option value="Buddha">Buddha</option>
                                                 <option value="Kong Hu Cu">Khong Hu Cu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="jns_kelamin">Jenis Kelamin</label>
+                                            <select name="jns_kelamin" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Jenis Kelamin --</option>
+                                                <option value="Perempuan">Perempuan</option>
+                                                <option value="Laki-laki">Laki-laki</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="mapel_id">Mata Pelajaran</label>
+                                            <select class="form-control" id="mapel_id" name="kelas_id">
+                                                <option value="" selected>-- Pilih Mata Pelajaran --</option>
+                                                @foreach ($mapels as $mapel)
+                                                <option value="{{ $mapel->id }}" {{ old('id') == $mapel->id ? 'selected' : '' }}>{{ $mapel->nama_mapel }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>

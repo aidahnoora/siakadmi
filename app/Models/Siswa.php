@@ -12,15 +12,16 @@ class Siswa extends Model
     protected $table = "siswa";
     protected $primaryKey = "id";
     protected $fillable = [
+        'nomor_induk',
         'nis',
         'nama_siswa',
         'kelas_id',
-        'jenis_kelamin',
-        'no_telp',
+        'jns_kelamin',
         'tmpt_lahir',
         'tgl_lahir',
         'foto',
         'nama_ortu',
+        'no_telp',
         'pekerjaan',
         'tahun_masuk',
         'agama',
@@ -30,5 +31,15 @@ class Siswa extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class);
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class);
     }
 }

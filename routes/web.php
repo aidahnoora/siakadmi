@@ -9,7 +9,9 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\NilaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,10 @@ use App\Http\Controllers\ProfilController;
 
 Route::get('/', function () {
     return view('auth.login');
+});
+
+Route::get('/detailsiswa', function () {
+    return view('pages.nilai.detail_nilai');
 });
 
 Auth::routes();
@@ -53,6 +59,7 @@ Route::middleware(['auth', 'checkrole:admin,guru,siswa,kepsek'])->group(function
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa');
     Route::get('/siswa/add', [SiswaController::class, 'create'])->name('siswa/add');
     Route::post('/siswa/save', [SiswaController::class, 'store'])->name('siswa/save');
+    Route::get('/siswa/detail/{id}', [SiswaController::class, 'show'])->name('siswa/detail');
     Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('siswa/edit');
     Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa/update');
     Route::get('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa/delete');
@@ -74,6 +81,29 @@ Route::middleware(['auth', 'checkrole:admin,guru,siswa,kepsek'])->group(function
     Route::get('/sekolah', [IdentitasSekolahController::class, 'index'])->name('sekolah');
     Route::get('/sekolah/edit/{id}', [IdentitasSekolahController::class, 'edit'])->name('sekolah/edit');
     Route::put('/sekolah/update/{id}', [IdentitasSekolahController::class, 'update'])->name('sekolah/update');
+
+    Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
+    Route::post('/absensi/save', [AbsensiController::class, 'store'])->name('absensi/save');
+    Route::get('/absensi/siswa/{id}', [AbsensiController::class, 'show'])->name('absensi/siswa');
+    Route::get('/absensi/siswa/tanggal/{id}', [AbsensiController::class, 'absensi'])->name('absensi/siswa/tanggal');
+    Route::get('/absensi/edit/{id}', [AbsensiController::class, 'edit'])->name('absensi/edit');
+    Route::put('/absensi/update/{id}', [AbsensiController::class, 'update'])->name('absensi/update');
+    Route::get('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('absensi/delete');
+
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+    Route::post('/jadwal/save', [JadwalController::class, 'store'])->name('jadwal/save');
+    Route::get('/jadwal/detail/{id}', [JadwalController::class, 'show'])->name('jadwal/detail');
+    Route::get('/jadwal/edit/{id}', [JadwalController::class, 'edit'])->name('jadwal/edit');
+    Route::put('/jadwal/update/{id}', [JadwalController::class, 'update'])->name('jadwal/update');
+    Route::get('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('jadwal/delete');
+
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
+    Route::post('/nilai/save', [NilaiController::class, 'store'])->name('nilai/save');
+    Route::get('/nilai/siswa/{id}', [NilaiController::class, 'show'])->name('nilai/siswa');
+    Route::get('/nilai/siswa/mapel/{id}', [NilaiController::class, 'nilai'])->name('nilai/siswa/mapel');
+    Route::get('/nilai/edit/{id}', [NilaiController::class, 'edit'])->name('nilai/edit');
+    Route::put('/nilai/update/{id}', [NilaiController::class, 'update'])->name('nilai/update');
+    Route::get('/nilai/delete/{id}', [NilaiController::class, 'destroy'])->name('nilai/delete');
 
 });
 

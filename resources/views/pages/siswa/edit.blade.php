@@ -36,7 +36,7 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/siswa" class="btn btn-primary">Kembali</a>
+                                <a href="/siswa" class="btn btn-success">Kembali</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -56,23 +56,21 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="nis">NIS</label>
-                                            <input type="text" name="nis" class="form-control" value="{{ $siswas->nis }}" autofocus required>
+                                            <label for="nomor_induk">Nomor Induk</label>
+                                            <input type="text" name="nomor_induk" class="form-control" value="{{ $siswas->nomor_induk }}" autofocus required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="jenis_perempuan">Jenis Kelamin</label>
-                                            <select name="jenis_kelamin" class="form-control" autofocus required>
-                                                <option value="Laki-laki" {{ $siswas->jenis_kelamin == 'Laki-laki'? 'selected': ''}}>Laki-laki</option>
-                                                <option value="Perempuan" {{ $siswas->jenis_kelamin == 'Perempuan'? 'selected': ''}}>Perempuan</option>
-                                            </select>
+                                            <label for="nis">NISN</label>
+                                            <input type="text" name="nis" class="form-control" value="{{ $siswas->nis }}" autofocus required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="kelas_id">Kelas</label>
                                             <select class="form-control" id="kelas_id" name="kelas_id">
+                                                <option value="" selected>-- Pilih Kelas --</option>
                                                 @foreach ($kelass as $kelas)
                                                 <option value="{{ $kelas->id }}" {{ $siswas->kelas_id == $kelas->id ? 'selected' : '' }}>{{ $kelas->nama_kelas }}</option>
                                                 @endforeach
@@ -122,10 +120,21 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="jns_kelamin">Jenis Kelamin</label>
+                                            <select name="jns_kelamin" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Jenis Kelamin --</option>
+                                                <option value="Laki-laki" {{ $siswas->jns_kelamin == 'Laki-laki'? 'selected': ''}}>Laki-laki</option>
+                                                <option value="Perempuan" {{ $siswas->jns_kelamin == 'Perempuan'? 'selected': ''}}>Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="agama">Agama</label>
                                             <select name="agama" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Agama --</option>
                                                 <option value="Islam" {{ $siswas->agama == 'Islam'? 'selected': ''}}>Islam</option>
                                                 <option value="Kristen" {{ $siswas->agama == 'Kristen'? 'selected': ''}}>Kristen</option>
                                                 <option value="Khatolik" {{ $siswas->agama == 'Khatolik'? 'selected': ''}}>Khatolik</option>
@@ -135,7 +144,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="alamat">Alamat</label>
                                             <textarea name="alamat" class="form-control"> {{ $siswas->alamat }} </textarea>
@@ -159,6 +168,7 @@
                                         <div class="form-group">
                                             <label for="pekerjaan">Pekerjaan</label>
                                             <select name="pekerjaan" class="form-control" autofocus required>
+                                                <option value="" selected>-- Pilih Pekerjaan Orang Tua --</option>
                                                 <option value="PNS" {{ $siswas->pekerjaan == 'PNS'? 'selected': ''}}>PNS</option>
                                                 <option value="Wiraswasta" {{ $siswas->pekerjaan == 'Wiraswasta'? 'selected': ''}}>Wiraswasta</option>
                                                 <option value="Swasta" {{ $siswas->pekerjaan == 'Swasta'? 'selected': ''}}>Swasta</option>

@@ -15,18 +15,25 @@ class Guru extends Model
     protected $fillable = [
         'nip',
         'nama_guru',
+        'pangkat_golongan',
+        'mapel_id',
         'tmpt_lahir',
         'tgl_lahir',
+        'jns_kelamin',
         'no_telp',
         'foto',
         'email',
         'agama',
-        'pangkat_golongan',
         'alamat',
     ];
 
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function mapel()
+    {
+        return $this->belongsTo(Mapel::class);
     }
 }

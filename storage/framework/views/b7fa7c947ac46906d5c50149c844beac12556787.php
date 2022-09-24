@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Content Header (Page header) -->
             <?php echo $__env->yieldContent('breadcrumbs'); ?>
             <!-- /.content-header -->
-
+            <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- Main content -->
             <?php echo $__env->yieldContent('content'); ?>
             <!-- /.content -->

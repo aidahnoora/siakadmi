@@ -36,10 +36,11 @@
       19 => 'Illuminate\\Translation\\TranslationServiceProvider',
       20 => 'Illuminate\\Validation\\ValidationServiceProvider',
       21 => 'Illuminate\\View\\ViewServiceProvider',
-      22 => 'App\\Providers\\AppServiceProvider',
-      23 => 'App\\Providers\\AuthServiceProvider',
-      24 => 'App\\Providers\\EventServiceProvider',
-      25 => 'App\\Providers\\RouteServiceProvider',
+      22 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
+      23 => 'App\\Providers\\AppServiceProvider',
+      24 => 'App\\Providers\\AuthServiceProvider',
+      25 => 'App\\Providers\\EventServiceProvider',
+      26 => 'App\\Providers\\RouteServiceProvider',
     ),
     'aliases' => 
     array (
@@ -81,6 +82,7 @@
       'URL' => 'Illuminate\\Support\\Facades\\URL',
       'Validator' => 'Illuminate\\Support\\Facades\\Validator',
       'View' => 'Illuminate\\Support\\Facades\\View',
+      'Alert' => 'RealRashid\\SweetAlert\\Facades\\Alert',
     ),
   ),
   'auth' => 
@@ -656,6 +658,49 @@
     'secure' => NULL,
     'http_only' => true,
     'same_site' => 'lax',
+  ),
+  'sweetalert' => 
+  array (
+    'cdn' => NULL,
+    'alwaysLoadJS' => false,
+    'neverLoadJS' => false,
+    'timer' => 5000,
+    'width' => '32rem',
+    'height_auto' => true,
+    'padding' => '1.25rem',
+    'animation' => 
+    array (
+      'enable' => false,
+    ),
+    'animatecss' => 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'show_confirm_button' => true,
+    'show_close_button' => false,
+    'toast_position' => 'top-end',
+    'timer_progress_bar' => false,
+    'middleware' => 
+    array (
+      'autoClose' => false,
+      'toast_position' => 'top-end',
+      'toast_close_button' => true,
+      'timer' => 6000,
+      'auto_display_error_messages' => false,
+    ),
+    'customClass' => 
+    array (
+      'container' => NULL,
+      'popup' => NULL,
+      'header' => NULL,
+      'title' => NULL,
+      'closeButton' => NULL,
+      'icon' => NULL,
+      'image' => NULL,
+      'content' => NULL,
+      'input' => NULL,
+      'actions' => NULL,
+      'confirmButton' => NULL,
+      'cancelButton' => NULL,
+      'footer' => NULL,
+    ),
   ),
   'view' => 
   array (

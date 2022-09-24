@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use App\Models\Mapel;
 use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
@@ -27,7 +28,9 @@ class GuruController extends Controller
      */
     public function create()
     {
-        return view('pages.guru.create');
+        $mapels = Mapel::get();
+
+        return view('pages.guru.create', compact('mapels'));
     }
 
     /**
@@ -41,13 +44,15 @@ class GuruController extends Controller
         $request->validate([
             'nip',
             'nama_guru' => 'required',
+            'pangkat_golongan',
+            'mapel_id',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
+            'jns_kelamin' => 'required',
             'no_telp' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'email' => 'required',
             'agama' => 'required',
-            'pangkat_golongan',
             'alamat' => 'required',
         ]);
 
@@ -57,22 +62,23 @@ class GuruController extends Controller
         $guru = Guru::create([
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
+            'pangkat_golongan' => $request->pangkat_golongan,
+            'mapel_id' => $request->mapel_id,
             'tmpt_lahir' => $request->tmpt_lahir,
             'tgl_lahir' => $request->tgl_lahir,
+            'jns_kelamin' => $request->jns_kelamin,
             'no_telp' => $request->no_telp,
             'foto' => $foto->hashName(),
             'email' => $request->email,
             'agama' => $request->agama,
-            'pangkat_golongan' => $request->pangkat_golongan,
             'alamat' => $request->alamat,
         ]);
 
         if ($guru) {
-            return redirect('guru')->with(['success' => 'Data berhasil disimpan!']);
+            return redirect('guru')->with('success', 'Data berhasil disimpan!');
         } else {
-            return redirect('guru')->with(['error' => 'Data gagal disimpan!']);
+            return redirect('guru')->with('error', 'Data gagal disimpan!');
         }
-
     }
 
     /**
@@ -95,8 +101,9 @@ class GuruController extends Controller
     public function edit($id)
     {
         $gurus = Guru::findorfail($id);
+        $mapels = Mapel::get();
 
-        return view('pages.guru.edit', compact('gurus'));
+        return view('pages.guru.edit', compact(['gurus', 'mapels']));
     }
 
     /**
@@ -111,13 +118,15 @@ class GuruController extends Controller
         $request->validate([
             'nip',
             'nama_guru' => 'required',
+            'pangkat_golongan',
+            'mapel_id',
             'tmpt_lahir' => 'required',
             'tgl_lahir' => 'required',
+            'jns_kelamin' => 'required',
             'no_telp' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             'email' => 'required',
             'agama' => 'required',
-            'pangkat_golongan',
             'alamat' => 'required',
         ]);
 
@@ -127,12 +136,14 @@ class GuruController extends Controller
             $guru->update([
                 'nip' => $request->nip,
                 'nama_guru' => $request->nama_guru,
+                'pangkat_golongan' => $request->pangkat_golongan,
+                'mapel_id' => $request->mapel_id,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
+                'jns_kelamin' => $request->jns_kelamin,
                 'no_telp' => $request->no_telp,
                 'email' => $request->email,
                 'agama' => $request->agama,
-                'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
             ]);
         }
@@ -141,24 +152,27 @@ class GuruController extends Controller
 
             $foto = $request->file('foto');
             $foto->storeAs('public/foto', $foto->hashName());
+
             $guru->update([
                 'nip' => $request->nip,
                 'nama_guru' => $request->nama_guru,
+                'pangkat_golongan' => $request->pangkat_golongan,
+                'mapel_id' => $request->mapel_id,
                 'tmpt_lahir' => $request->tmpt_lahir,
                 'tgl_lahir' => $request->tgl_lahir,
+                'jns_kelamin' => $request->jns_kelamin,
                 'no_telp' => $request->no_telp,
                 'foto' => $foto->hashName(),
                 'email' => $request->email,
                 'agama' => $request->agama,
-                'pangkat_golongan' => $request->pangkat_golongan,
                 'alamat' => $request->alamat,
             ]);
         }
 
         if ($guru) {
-            return redirect('guru')->with(['success' => 'Data berhasil disimpan!']);
+            return redirect('guru')->with('success', 'Data berhasil diperbarui!');
         } else {
-            return redirect('guru')->with(['error' => 'Data gagal disimpan!']);
+            return redirect('guru')->with('error', 'Data gagal diperbarui!');
         }
     }
 
@@ -173,6 +187,6 @@ class GuruController extends Controller
         $gurus = Guru::find($id);
         $gurus->delete();
 
-        return redirect('guru');
+        return redirect('guru')->with('success', 'Data berhasil dihapus!');
     }
 }

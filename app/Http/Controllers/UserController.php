@@ -108,7 +108,11 @@ class UserController extends Controller
 
         $post->update($post_data);
 
-        return redirect('user');
+        if ($post) {
+            return redirect('user')->with('success', 'Data berhasil diperbarui!');
+        } else {
+            return redirect('user')->with('error', 'Data gagal diperbarui!');
+        }
     }
 
     /**
@@ -122,6 +126,6 @@ class UserController extends Controller
         $users = User::find($id);
         $users->delete();
 
-        return redirect('user');
+        return redirect('user')->with('success', 'Data berhasil dihapus!');
     }
 }
