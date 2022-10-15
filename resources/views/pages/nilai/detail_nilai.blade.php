@@ -23,8 +23,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/home">Home</a></li>
                         <li class="breadcrumb-item"><a href="/nilai">Nilai Siswa</a></li>
-                        <li class="breadcrumb-item">Kelas {{ $kelass->nama_kelas }}</li>
-                        <li class="breadcrumb-item active">Detail Nilai</li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,7 +38,7 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="card-title">Detail Nilai Siswa</h2>
+                            <h2 class="card-title">Detail Nilai : {{ $siswas->nama_siswa }}</h2>
                             <div class="card-tools">
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
                                     Kembali
@@ -115,7 +114,8 @@
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
-                "autoWidth": false
+                "autoWidth": false,
+                "buttons": ["copy", "excel", "pdf", "print"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,

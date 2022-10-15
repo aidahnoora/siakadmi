@@ -11,6 +11,7 @@ use App\Http\Controllers\MapelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
 
 /*
@@ -104,6 +105,15 @@ Route::middleware(['auth', 'checkrole:admin,guru,siswa,kepsek'])->group(function
     Route::get('/nilai/edit/{id}', [NilaiController::class, 'edit'])->name('nilai/edit');
     Route::put('/nilai/update/{id}', [NilaiController::class, 'update'])->name('nilai/update');
     Route::get('/nilai/delete/{id}', [NilaiController::class, 'destroy'])->name('nilai/delete');
+
+    Route::get('/laporan/siswa', [LaporanController::class, 'siswa'])->name('laporan/siswa');
+    Route::get('/laporan/guru', [LaporanController::class, 'guru'])->name('laporan/guru');
+    Route::get('/laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan/absensi');
+    Route::get('/laporan/absensi/kelas/{id}', [LaporanController::class, 'absensi_kelas'])->name('laporan/absensi/kelas');
+    Route::get('/laporan/nilai', [LaporanController::class, 'nilai'])->name('laporan/nilai');
+    Route::get('/laporan/nilai/kelas/{id}', [LaporanController::class, 'nilai_kelas'])->name('laporan/nilai/kelas');
+
+    Route::post('/laporan/search/{id}', [LaporanController::class, 'search'])->name('laporan/search');
 
 });
 

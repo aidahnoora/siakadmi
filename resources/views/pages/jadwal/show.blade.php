@@ -52,6 +52,7 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>No.</th>
+                                        <th>Kelas</th>
                                         <th>Hari</th>
                                         <th>Mata Pelajaran</th>
                                         <th>Waktu</th>
@@ -62,6 +63,7 @@
                                     @foreach ($jadwals as $item)
                                         <tr>
                                             <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
+                                            <td>{{ $kelass->nama_kelas }}</td>
                                             <td>{{ $item->hari->nama_hari }}</td>
                                             <td>{{ $item->mapel->nama_mapel }}</td>
                                             <td>{{ $item->jam_mulai }} - {{ $item->jam_selesai }}</td>

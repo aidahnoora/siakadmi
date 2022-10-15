@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="card-body table-responsive">
-                            <table id="exampl12" class="table table-bordered table-hover">
+                            <table id="example1" class="table table-bordered table-hover">
                                 <thead class="text-center">
                                     <tr>
                                         <th>No.</th>

@@ -67,24 +67,24 @@ class AbsensiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $kelass = Kelas::findorfail($id);
-        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->where('kelas_id', $id)->get();
-        $sakit = Absensi::where('keterangan', 'sakit')->count();
-        $izin = Absensi::where('keterangan', 'izin')->count();
-        $alfa = Absensi::where('keterangan', 'alfa')->count();
+        $siswas = Siswa::orderBy('nomor_induk', 'ASC')->where('kelas_id', $id)->get();
+        $sakit = Absensi::where('keterangan', 'sakit')->get();
+        $izin = Absensi::where('keterangan', 'izin')->get();
+        $alfa = Absensi::where('keterangan', 'alfa')->get();
 
         return view('pages.absensi.show', compact(['siswas', 'kelass', 'sakit', 'izin', 'alfa']));
     }
 
     public function absensi($id)
     {
-        $kelass = Kelas::findorfail($id);
-        $absensis = Absensi::orderBy('tanggal', 'ASC')->where('kelas_id', $id)->get();
-        $siswas = Siswa::all();
+        $siswas = Siswa::findorfail($id);
+        $absensis = Absensi::orderBy('tanggal', 'ASC')->where('siswa_id', $id)->get();
+        // $siswas = Siswa::all();
 
-        return view('pages.absensi.detail_absensi', compact(['kelass', 'absensis', 'siswas']));
+        return view('pages.absensi.detail_absensi', compact(['siswas', 'absensis']));
     }
 
     /**

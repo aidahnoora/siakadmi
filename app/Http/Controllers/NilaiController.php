@@ -78,7 +78,7 @@ class NilaiController extends Controller
     public function show($id)
     {
         $kelass = Kelas::findorfail($id);
-        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->where('kelas_id', $id)->get();
+        $siswas = Siswa::orderBy('nomor_induk', 'ASC')->where('kelas_id', $id)->get();
         // $nilais = Nilai::orderBy('created_at', 'ASC')->where('kelas_id', $id)->get();
 
         return view('pages.nilai.show', compact(['siswas', 'kelass']));
@@ -86,12 +86,11 @@ class NilaiController extends Controller
 
     public function nilai($id)
     {
-        $kelass = Kelas::findorfail($id);
-        $nilais = Nilai::orderBy('created_at', 'ASC')->where('kelas_id', $id)->get();
-        $siswas = Siswa::all();
+        $siswas = Siswa::findorfail($id);
+        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_id', $id)->get();
         $mapels = Mapel::all();
 
-        return view('pages.nilai.detail_nilai', compact(['kelass', 'nilais', 'siswas', 'mapels']));
+        return view('pages.nilai.detail_nilai', compact(['nilais', 'siswas', 'mapels']));
     }
 
     /**

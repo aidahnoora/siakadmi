@@ -48,6 +48,7 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>No.</th>
+                                        <th>Nomor Induk</th>
                                         <th>NISN</th>
                                         <th>Nama Siswa</th>
                                         <th>Sakit</th>
@@ -60,11 +61,12 @@
                                     @foreach ($siswas as $item)
                                     <tr>
                                         <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
+                                        <td>{{ $item->nomor_induk }}</td>
                                         <td>{{ $item->nis }}</td>
                                         <td>{{ $item->nama_siswa }}</td>
-                                        <td class="text-center">{{ $sakit }}</td>
-                                        <td class="text-center">{{ $izin }}</td>
-                                        <td class="text-center">{{ $alfa }}</td>
+                                        <td class="text-center">{{ $sakit->where('siswa_id', $item->id)->count() }}</td>
+                                        <td class="text-center">{{ $izin->where('siswa_id', $item->id)->count() }}</td>
+                                        <td class="text-center">{{ $alfa->where('siswa_id', $item->id)->count() }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('absensi/siswa/tanggal', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
                                                 <i class="fas fa-search-plus"></i>

@@ -23,8 +23,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/home">Home</a></li>
                         <li class="breadcrumb-item"><a href="/absensi">Absensi Siswa</a></li>
-                        <li class="breadcrumb-item">Kelas {{ $kelass->nama_kelas }}</li>
-                        <li class="breadcrumb-item active">Detail Absensi</li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,7 +38,7 @@
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="card-title">Detail Absensi Siswa</h2>
+                            <h2 class="card-title">Detail Absensi : {{ $siswas->nama_siswa }}</h2>
                             <div class="card-tools">
                                 <a href="{{ route('absensi') }}" class="btn btn-success">
                                     Kembali

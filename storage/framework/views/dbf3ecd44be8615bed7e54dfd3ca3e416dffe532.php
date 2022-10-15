@@ -2,9 +2,7 @@
     <!-- Brand Logo -->
     <a href="/home" class="brand-link text-center">
         <div class="image">
-            <?php $__currentLoopData = $logo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <img src="<?php echo e(Storage::url('public/logo/').$item->logo); ?>" class="brand-image img-circle elevation-3" alt="User Image">
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            
         </div>
         <span class="brand-text font-weight-light">SIAKAD MI NGLARAN 1</span>
     </a>
@@ -77,6 +75,40 @@
                         <i class="nav-icon fas fa-trophy"></i>
                         <p>Nilai Siswa</p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Laporan
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/laporan/siswa" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Siswa</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/laporan/guru" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Guru</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/laporan/absensi" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Absensi Siswa</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/laporan/nilai" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Nilai Siswa</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
