@@ -20,11 +20,23 @@ class LaporanController extends Controller
         return view('pages.laporan.guru', compact('gurus'));
     }
 
-    public function siswa()
+    public function siswa(Request $request)
     {
-        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->get();
+        $kelass = Kelas::all();
 
-        return view('pages.laporan.siswa', compact('siswas'));
+        $siswas = Siswa::query();
+
+        if($request->kelas_id) {
+            $kelas_id = $request->kelas_id;
+            $siswas->whereHas('kelas', function ($query) use ($kelas_id) {
+                $query->where('kelas_id', $kelas_id);
+                }
+            );
+        }
+
+        $siswas = $siswas->orderBy('nama_siswa', 'ASC')->get();
+
+        return view('pages.laporan.siswa', compact('kelass', 'siswas'));
     }
 
     public function absensi()

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
+use App\Models\Kelas;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -24,7 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $jml_siswa = Siswa::count();
+        $jml_guru = Guru::count();
+        $jml_kelas = Kelas::count();
+        $jml_user = User::count();
+
+        return view('dashboard', compact('jml_siswa', 'jml_guru', 'jml_kelas', 'jml_user'));
     }
 
     public function show()

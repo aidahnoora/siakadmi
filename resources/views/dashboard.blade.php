@@ -28,14 +28,14 @@
                     <!-- small card -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ $jml_siswa }}</h3>
 
-                            <p>New Orders</p>
+                            <p>Siswa</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-shopping-cart"></i>
+                            <i class="fas fa-users"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/siswa" class="small-box-footer">
                             More info <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -45,14 +45,14 @@
                     <!-- small card -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>{{ $jml_guru }}</h3>
 
-                            <p>Bounce Rate</p>
+                            <p>Guru</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="fas fa-user-tie"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/guru" class="small-box-footer">
                             More info <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -62,14 +62,14 @@
                     <!-- small card -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ $jml_kelas }}</h3>
 
-                            <p>User Registrations</p>
+                            <p>Kelas</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-user-plus"></i>
+                            <i class="fas fa-home"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/kelas" class="small-box-footer">
                             More info <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>
@@ -79,14 +79,14 @@
                     <!-- small card -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>65</h3>
+                            <h3>{{ $jml_user }}</h3>
 
-                            <p>Unique Visitors</p>
+                            <p>User</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-chart-pie"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
+                        <a href="/user" class="small-box-footer">
                             More info <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

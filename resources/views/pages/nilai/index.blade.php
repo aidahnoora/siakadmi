@@ -39,9 +39,7 @@
                         <div class="card-header">
                             <h2 class="card-title">Nilai Siswa</h2>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                                    Tambah Data
-                                </button>
+
                             </div>
                         </div>
                         <div class="card-body table-responsive">

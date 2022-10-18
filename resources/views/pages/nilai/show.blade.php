@@ -38,6 +38,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                                    Tambah Data
+                                </button>
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
                                     Kembali
                                 </a>

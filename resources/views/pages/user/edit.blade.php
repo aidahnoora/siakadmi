@@ -29,7 +29,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 offset-md-3">
                     <div class="card">
                         <div class="card-header">
                             <h2 class="card-title">Data User</h2>

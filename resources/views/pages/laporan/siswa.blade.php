@@ -39,6 +39,28 @@
                             </div>
                         </div>
                         <div class="card-body table-responsive">
+                            <form method="GET">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container-fluid">
+                                            <div class="form-group row">
+                                                <label for="" class="col-form-label col-sm-2">Siswa</label>
+                                                <div class="col-sm-3">
+                                                    <select name="kelas_id" id="kelas_id" class="form-control">
+                                                        @foreach ($kelass as $item)
+                                                            <option value="{{ $item->id }}" {{ request('kelas_id')==$item->id?'selected':'' }}>{{ $item->nama_kelas }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <button type="submit" class="btn" name="search" title="Search"><img src="https://img.icons8.com/android/search"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
                             <table id="example1" class="table table-bordered table-hover">
                                 <thead class="text-center">
                                     <tr>
