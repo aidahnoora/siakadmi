@@ -13,6 +13,7 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\SiswaLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,10 @@ Route::middleware(['auth', 'checkrole:admin,guru,siswa,kepsek'])->group(function
     Route::get('/profil', [HomeController::class, 'show'])->name('profil');
     Route::get('/profil/edit/{id}', [HomeController::class, 'edit'])->name('profil/edit');
     Route::put('/profil/update/{id}', [HomeController::class, 'update'])->name('profil/update');
+
+});
+
+Route::middleware(['auth', 'checkrole:admin'])->group(function (){
 
     Route::get('/guru', [GuruController::class, 'index'])->name('guru');
     Route::get('/guru/add', [GuruController::class, 'create'])->name('guru/add');
@@ -110,27 +115,57 @@ Route::middleware(['auth', 'checkrole:admin,guru,siswa,kepsek'])->group(function
     Route::get('/laporan/guru', [LaporanController::class, 'guru'])->name('laporan/guru');
     Route::get('/laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan/absensi');
     Route::get('/laporan/absensi/kelas/{id}', [LaporanController::class, 'absensi_kelas'])->name('laporan/absensi/kelas');
+    Route::post('/laporan/search/{id}', [LaporanController::class, 'search'])->name('laporan/search');
     Route::get('/laporan/nilai', [LaporanController::class, 'nilai'])->name('laporan/nilai');
     Route::get('/laporan/nilai/kelas/{id}', [LaporanController::class, 'nilai_kelas'])->name('laporan/nilai/kelas');
-
-    Route::post('/laporan/search/{id}', [LaporanController::class, 'search'])->name('laporan/search');
 
 });
 
 Route::middleware(['auth', 'checkrole:admin,guru'])->group(function (){
 
+    Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
+    Route::post('/absensi/save', [AbsensiController::class, 'store'])->name('absensi/save');
+    Route::get('/absensi/siswa/{id}', [AbsensiController::class, 'show'])->name('absensi/siswa');
+    Route::get('/absensi/siswa/tanggal/{id}', [AbsensiController::class, 'absensi'])->name('absensi/siswa/tanggal');
+    Route::get('/absensi/edit/{id}', [AbsensiController::class, 'edit'])->name('absensi/edit');
+    Route::put('/absensi/update/{id}', [AbsensiController::class, 'update'])->name('absensi/update');
+    Route::get('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('absensi/delete');
 
+    Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
+    Route::post('/jadwal/save', [JadwalController::class, 'store'])->name('jadwal/save');
+    Route::get('/jadwal/detail/{id}', [JadwalController::class, 'show'])->name('jadwal/detail');
+    Route::get('/jadwal/edit/{id}', [JadwalController::class, 'edit'])->name('jadwal/edit');
+    Route::put('/jadwal/update/{id}', [JadwalController::class, 'update'])->name('jadwal/update');
+    Route::get('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('jadwal/delete');
+
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
+    Route::post('/nilai/save', [NilaiController::class, 'store'])->name('nilai/save');
+    Route::get('/nilai/siswa/{id}', [NilaiController::class, 'show'])->name('nilai/siswa');
+    Route::get('/nilai/siswa/mapel/{id}', [NilaiController::class, 'nilai'])->name('nilai/siswa/mapel');
+    Route::get('/nilai/edit/{id}', [NilaiController::class, 'edit'])->name('nilai/edit');
+    Route::put('/nilai/update/{id}', [NilaiController::class, 'update'])->name('nilai/update');
+    Route::get('/nilai/delete/{id}', [NilaiController::class, 'destroy'])->name('nilai/delete');
+
+    Route::get('/laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan/absensi');
+    Route::get('/laporan/absensi/kelas/{id}', [LaporanController::class, 'absensi_kelas'])->name('laporan/absensi/kelas');
+
+    Route::get('/laporan/nilai', [LaporanController::class, 'nilai'])->name('laporan/nilai');
+    Route::get('/laporan/nilai/kelas/{id}', [LaporanController::class, 'nilai_kelas'])->name('laporan/nilai/kelas');
 
 });
 
 Route::middleware(['auth', 'checkrole:admin,siswa'])->group(function (){
-
-
-
+    //request by flutter
 });
 
 Route::middleware(['auth', 'checkrole:admin,kepsek'])->group(function (){
 
-
+    Route::get('/laporan/siswa', [LaporanController::class, 'siswa'])->name('laporan/siswa');
+    Route::get('/laporan/guru', [LaporanController::class, 'guru'])->name('laporan/guru');
+    Route::get('/laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan/absensi');
+    Route::get('/laporan/absensi/kelas/{id}', [LaporanController::class, 'absensi_kelas'])->name('laporan/absensi/kelas');
+    Route::post('/laporan/search/{id}', [LaporanController::class, 'search'])->name('laporan/search');
+    Route::get('/laporan/nilai', [LaporanController::class, 'nilai'])->name('laporan/nilai');
+    Route::get('/laporan/nilai/kelas/{id}', [LaporanController::class, 'nilai_kelas'])->name('laporan/nilai/kelas');
 
 });

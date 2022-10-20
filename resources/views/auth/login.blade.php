@@ -18,6 +18,9 @@
 </head>
 
 <body class="hold-transition login-page">
+    {{-- <div class="alert alert-success m-3">
+        Login untuk <b>siswa</b> silahkan <a href="{{ url('login/siswa') }}" class="text-danger" style="text-decoration:none;">Klik Disini</a>
+    </div> --}}
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">

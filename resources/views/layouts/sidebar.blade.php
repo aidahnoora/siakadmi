@@ -25,6 +25,7 @@
                         </p>
                     </a>
                 </li>
+                @if (Auth::user()->role == 'admin')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
@@ -60,6 +61,8 @@
                         </li>
                     </ul>
                 </li>
+                @endif
+                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'guru')
                 <li class="nav-item">
                     <a href="/jadwal" class="nav-link">
                         <i class="nav-icon fas fa-calendar-week"></i>
@@ -78,14 +81,18 @@
                         <p>Nilai Siswa</p>
                     </a>
                 </li>
+                @endif
                 <li class="nav-item">
+                    @if (Auth::user()->role == 'admin' || Auth::user()->role == 'guru' || Auth::user()->role == 'kepsek')
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>Laporan
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    @endif
                     <ul class="nav nav-treeview">
+                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'kepsek')
                         <li class="nav-item">
                             <a href="/laporan/siswa" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -98,6 +105,8 @@
                                 <p>Data Guru</p>
                             </a>
                         </li>
+                        @endif
+                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'guru')
                         <li class="nav-item">
                             <a href="/laporan/absensi" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -110,8 +119,10 @@
                                 <p>Nilai Siswa</p>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </li>
+                @if (Auth::user()->role == 'admin')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -134,6 +145,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

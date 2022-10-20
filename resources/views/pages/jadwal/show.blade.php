@@ -71,9 +71,11 @@
                                                 <a href="{{ route('jadwal/edit', $item->id) }}" class="btn btn-icon btn-sm btn-warning">
                                                     <i class="far fa-edit"></i>
                                                 </a>
+                                                @if (Auth::user()->role == 'admin')
                                                 <a href="{{ route('jadwal/delete', $item->id) }}" class="btn btn-icon btn-sm btn-danger">
                                                     <i class="fas fa-times"></i>
                                                 </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
