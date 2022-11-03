@@ -15,9 +15,8 @@ class SiswaSeeder extends Seeder
     public function run()
     {
         DB::table('siswa')->insert([
-            'id' => 1,
+            'nis' => '1233',
             'nomor_induk' => '001',
-            'nis' => '19930289123',
             'nama_siswa' => 'Aina',
             'kelas_id' => 1,
             'jns_kelamin' => 'Perempuan',

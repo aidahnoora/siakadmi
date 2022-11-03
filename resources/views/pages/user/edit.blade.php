@@ -74,6 +74,7 @@
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                    <span style="font-size: 12px">*Kosongi jika tidak ingin merubah password</span>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -83,15 +84,25 @@
                                 <div class="form-group">
                                     <label for="password-confirm">Konfirmasi Password</label>
                                     <input type="password" id="password-confirm" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                    <span style="font-size: 12px; font-color: red;">*Kosongi jika tidak ingin merubah password</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <select name="role" class="form-control" autofocus required>
+                                    <select name="role" id="role" class="form-control" autofocus required>
                                         <option value="admin" {{ $users->role == 'admin'? 'selected': ''}}>Admin</option>
                                         <option value="guru" {{ $users->role == 'guru'? 'selected': ''}}>Guru</option>
                                         <option value="siswa" {{ $users->role == 'siswa'? 'selected': ''}}>Siswa</option>
                                         <option value="kepsek" {{ $users->role == 'kepsek'? 'selected': ''}}>Kepala Sekolah</option>
                                     </select>
+                                </div>
+                                <div class="form-group" id="siswa_nis" style="display: none">
+                                    <label for="siswa_nis">NIS</label>
+                                    <input type="text" name="siswa_nis" class="form-control @error('siswa_nis') is-invalid @enderror" value="{{ $users->siswa_nis }}" autocomplete="siswa_nis">
+                                    @error('siswa_nis')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="text-right">
                                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -104,8 +115,25 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+    <input type="hidden" id="tipe_role" value="{{ $users->role }}">
 @endsection
 
 @section('js')
+<script>
+    $(document).ready(function() {
+        if( $('#tipe_role').val() == 'siswa'){
+            $("#siswa_nis").show();
+        }else{
+            $("#siswa_nis").hide();
+        }
 
+        $('#role').change(function(){
+            if($(this).val() == 'siswa'){
+                $("#siswa_nis").show();
+            }else{
+                $("#siswa_nis").hide();
+            }
+        });
+    });
+</script>
 @endsection

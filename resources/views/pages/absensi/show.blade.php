@@ -64,11 +64,11 @@
                                         <td>{{ $item->nomor_induk }}</td>
                                         <td>{{ $item->nis }}</td>
                                         <td>{{ $item->nama_siswa }}</td>
-                                        <td class="text-center">{{ $sakit->where('siswa_id', $item->id)->count() }}</td>
-                                        <td class="text-center">{{ $izin->where('siswa_id', $item->id)->count() }}</td>
-                                        <td class="text-center">{{ $alfa->where('siswa_id', $item->id)->count() }}</td>
+                                        <td class="text-center">{{ $sakit->where('siswa_nis', $item->nis)->count() }}</td>
+                                        <td class="text-center">{{ $izin->where('siswa_nis', $item->nis)->count() }}</td>
+                                        <td class="text-center">{{ $alfa->where('siswa_nis', $item->nis)->count() }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('absensi/siswa/tanggal', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
+                                            <a href="{{ route('absensi/siswa/tanggal', $item->nis) }}" class="btn btn-icon btn-sm btn-primary">
                                                 <i class="fas fa-search-plus"></i>
                                             </a>
                                         </td>

@@ -18,9 +18,6 @@
 </head>
 
 <body class="hold-transition login-page">
-    {{-- <div class="alert alert-success m-3">
-        Login untuk <b>siswa</b> silahkan <a href="{{ url('login/siswa') }}" class="text-danger" style="text-decoration:none;">Klik Disini</a>
-    </div> --}}
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -64,13 +61,7 @@
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                    {{ old('remember') ? 'checked' : '' }}>
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
+
                         </div>
                         <!-- /.col -->
                         <div class="col-4">

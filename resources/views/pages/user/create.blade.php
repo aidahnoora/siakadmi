@@ -85,14 +85,27 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <select name="role" class="form-control" autofocus required>
+                                    <select name="role" class="form-control" autofocus required onchange=" if (this.value=='siswa'){
+                                        document.getElementById('siswa_nis').style.display = 'inline';
+                                        }else {
+                                            document.getElementById('siswa_nis').style.display = 'none';
+                                        };">
                                         <option value="admin">Admin</option>
                                         <option value="guru">Guru</option>
                                         <option value="siswa">Siswa</option>
                                         <option value="kepsek">Kepala Sekolah</option>
                                     </select>
                                 </div>
-                                <div class="text-right">
+                                <div class="form-group" id="siswa_nis" style="display: none">
+                                    <label for="siswa_nis">NIS</label>
+                                    <input type="text" name="siswa_nis" class="form-control @error('siswa_nis') is-invalid @enderror" value="{{ old('siswa_nis') }}" autocomplete="siswa_nis" autofocus>
+                                    @error('siswa_nis')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="text-right" style="margin-top: 20px">
                                     <button class="btn btn-primary" type="submit">Submit</button>
                                 </div>
                             </form>

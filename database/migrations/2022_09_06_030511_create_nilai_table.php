@@ -16,13 +16,15 @@ class CreateNilaiTable extends Migration
         Schema::create('nilai', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kelas_id');
-            $table->foreignId('siswa_id');
+            $table->bigInteger('siswa_nis');
             $table->foreignId('mapel_id');
             $table->integer('tugas');
             $table->integer('rata_uh');
             $table->integer('uts');
             $table->integer('uas');
             $table->timestamps();
+
+            $table->foreign('siswa_nis')->references('nis')->on('siswa')->onDelete('cascade');
         });
     }
 

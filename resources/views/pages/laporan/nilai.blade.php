@@ -47,9 +47,9 @@
                                             <div class="form-group row">
                                                 <label for="" class="col-form-label col-sm-2">Siswa</label>
                                                 <div class="col-sm-3">
-                                                    <select name="siswa_id" id="siswa_id" class="form-control">
+                                                    <select name="siswa_nis" id="siswa_nis" class="form-control">
                                                         @foreach ($siswas as $item)
-                                                            <option value="{{ $item->id }}" {{ request('siswa_id')==$item->id?'selected':'' }}>{{ $item->nama_siswa }}</option>
+                                                            <option value="{{ $item->id }}" {{ request('siswa_nis')==$item->id?'selected':'' }}>{{ $item->nama_siswa }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

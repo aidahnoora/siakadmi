@@ -47,9 +47,9 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th>No.</th>
+                                        <th>NISN</th>
                                         <th>Foto</th>
                                         <th>Nomor Induk</th>
-                                        <th>NISN</th>
                                         <th>Nama Siswa</th>
                                         <th>Action</th>
                                     </tr>
@@ -58,15 +58,15 @@
                                     @foreach ($siswas as $item)
                                     <tr>
                                         <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
-                                        <td><img src="{{ Storage::url('public/foto/').$item->foto }}" width="50" height="auto"></td>
-                                        <td>{{ $item->nomor_induk }}</td>
                                         <td>{{ $item->nis }}</td>
+                                        <td class="text-center"><img src="{{ Storage::url('public/foto/').$item->foto }}" width="50" height="auto"></td>
+                                        <td>{{ $item->nomor_induk }}</td>
                                         <td>{{ $item->nama_siswa }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('siswa/edit', $item->id) }}" class="btn btn-icon btn-sm btn-warning">
+                                            <a href="{{ route('siswa/edit', $item->nis) }}" class="btn btn-icon btn-sm btn-warning">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            <a href="{{ route('siswa/delete', $item->id) }}" class="btn btn-icon btn-sm btn-danger">
+                                            <a href="{{ route('siswa/delete', $item->nis) }}" class="btn btn-icon btn-sm btn-danger">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>

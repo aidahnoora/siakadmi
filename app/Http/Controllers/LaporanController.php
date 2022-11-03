@@ -49,7 +49,7 @@ class LaporanController extends Controller
     public function absensi_kelas($id)
     {
         $kelass = Kelas::findorfail($id);
-        $absensis = Absensi::orderBy('siswa_id', 'ASC')->where('kelas_id', $id)->get();
+        $absensis = Absensi::orderBy('siswa_nis', 'ASC')->where('kelas_id', $id)->get();
 
         return view('pages.laporan.absensi', compact('kelass', 'absensis'));
     }
@@ -69,10 +69,10 @@ class LaporanController extends Controller
 
         $nilais = Nilai::query();
 
-        if($request->siswa_id) {
-            $siswa_id = $request->siswa_id;
-            $nilais->whereHas('siswa', function ($query) use ($siswa_id) {
-                $query->where('siswa_id', $siswa_id);
+        if($request->siswa_nis) {
+            $siswa_nis = $request->siswa_nis;
+            $nilais->whereHas('siswa', function ($query) use ($siswa_nis) {
+                $query->where('siswa_nis', $siswa_nis);
                 }
             );
         }
@@ -87,7 +87,7 @@ class LaporanController extends Controller
 
         // dd($nilais);
 
-        $nilais = $nilais->orderBy('siswa_id', 'ASC')->where('kelas_id', $id)->paginate(10);
+        $nilais = $nilais->orderBy('siswa_nis', 'ASC')->where('kelas_id', $id)->paginate(10);
 
         return view('pages.laporan.nilai', compact('kelass', 'siswas', 'mapels', 'nilais'));
     }
@@ -101,7 +101,7 @@ class LaporanController extends Controller
         $toDate = $request->input('toDate');
 
         $absensis = Absensi::where('tanggal', '>=', $fromDate)->where('tanggal', '<=', $toDate)
-            ->orderBy('siswa_id', 'ASC')->where('kelas_id', $id)->get();
+            ->orderBy('siswa_nis', 'ASC')->where('kelas_id', $id)->get();
         // dd($absensis);
 
         return view('pages.laporan.absensi', compact('kelass', 'absensis'));

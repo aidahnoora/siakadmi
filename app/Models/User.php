@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'siswa_nis',
     ];
 
     /**
@@ -42,4 +43,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+
+    // public function siswa($id)
+    // {
+    //     $siswa = Siswa::where('nis', $id)->first();
+    //     return $siswa;
+    // }
+
 }

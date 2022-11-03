@@ -59,7 +59,7 @@
                                             <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('absensi/siswa', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
+                                                <a href="{{ route('absensi/kelas', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
                                                     <i class="fas fa-search-plus"></i>
                                                 </a>
                                             </td>
@@ -93,12 +93,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="siswa_id">Nama Siswa</label>
-                                    <select id="siswa_id" name="siswa_id"
-                                        class="form-control @error('siswa_id') is-invalid @enderror select2bs4">
+                                    <label for="siswa_nis">Nama Siswa</label>
+                                    <select id="siswa_nis" name="siswa_nis"
+                                        class="form-control @error('siswa_nis') is-invalid @enderror select2bs4">
                                         <option value="" selected>-- Pilih Siswa --</option>
                                         @foreach ($siswas as $siswa)
-                                            <option value="{{ $siswa->id }}" data-kelas="{{ $siswa->kelas->id }}">{{ $siswa->nama_siswa }}</option>
+                                            <option value="{{ $siswa->nis }}" data-kelas="{{ $siswa->kelas->id }}">{{ $siswa->nama_siswa }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -171,7 +171,7 @@
             });
         });
         $(document).ready(function() {
-            $('#siswa_id').on('change', function() {
+            $('#siswa_nis').on('change', function() {
                 const selected = $(this).find('option:selected');
                 const jab = selected.data('kelas');
 

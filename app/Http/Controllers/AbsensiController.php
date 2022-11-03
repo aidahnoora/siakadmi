@@ -41,23 +41,23 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'siswa_nis' => 'required',
             'kelas_id' => 'required',
-            'siswa_id' => 'required',
             'tanggal' => 'required',
             'keterangan' => 'required'
         ]);
 
         $absensi = Absensi::create([
+            'siswa_nis' => $request->siswa_nis,
             'kelas_id' => $request->kelas_id,
-            'siswa_id' => $request->siswa_id,
             'tanggal' => $request->tanggal,
             'keterangan' => $request->keterangan,
         ]);
 
         if ($absensi) {
-            return redirect('absensi')->with('success', 'Data berhasil disimpan!');
+            return redirect()->back()->with('success', 'Data berhasil disimpan!');
         } else {
-            return redirect('absensi')->with('error', 'Data gagal disimpan!');
+            return redirect()->back()->with('error', 'Data gagal disimpan!');
         }
     }
 
@@ -70,7 +70,7 @@ class AbsensiController extends Controller
     public function show(Request $request, $id)
     {
         $kelass = Kelas::findorfail($id);
-        $siswas = Siswa::orderBy('nomor_induk', 'ASC')->where('kelas_id', $id)->get();
+        $siswas = Siswa::orderBy('nis', 'ASC')->where('kelas_id', $id)->get();
         $sakit = Absensi::where('keterangan', 'sakit')->get();
         $izin = Absensi::where('keterangan', 'izin')->get();
         $alfa = Absensi::where('keterangan', 'alfa')->get();
@@ -78,10 +78,10 @@ class AbsensiController extends Controller
         return view('pages.absensi.show', compact(['siswas', 'kelass', 'sakit', 'izin', 'alfa']));
     }
 
-    public function absensi($id)
+    public function absensi($nis)
     {
-        $siswas = Siswa::findorfail($id);
-        $absensis = Absensi::orderBy('tanggal', 'ASC')->where('siswa_id', $id)->get();
+        $siswas = Siswa::where('nis', $nis)->first();
+        $absensis = Absensi::orderBy('tanggal', 'ASC')->where('siswa_nis', $nis)->get();
         // $siswas = Siswa::all();
 
         return view('pages.absensi.detail_absensi', compact(['siswas', 'absensis']));
@@ -142,6 +142,6 @@ class AbsensiController extends Controller
         $absensis = Absensi::find($id);
         $absensis->delete();
 
-        return redirect('absensi')->with('success', 'Data berhasil dihapus!');
+        return redirect()->back()->with('success', 'Data berhasil dihapus!');
     }
 }

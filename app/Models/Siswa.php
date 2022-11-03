@@ -10,10 +10,10 @@ class Siswa extends Model
     use HasFactory;
 
     protected $table = "siswa";
-    protected $primaryKey = "id";
+    protected $primaryKey = "nis";
     protected $fillable = [
-        'nomor_induk',
         'nis',
+        'nomor_induk',
         'nama_siswa',
         'kelas_id',
         'jns_kelamin',

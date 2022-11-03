@@ -14,7 +14,9 @@
 
                 </a>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <?php if(Auth::user()->role != 'siswa'): ?>
                     <a class="dropdown-item" href="<?php echo e(route('profil')); ?>"><i class="nav-icon fas fa-user"></i> &nbsp; Profilku</a>
+                    <?php endif; ?>
                     <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="nav-icon fas fa-sign-out-alt"></i> &nbsp; Log Out</a>
                     <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                         <?php echo csrf_field(); ?>

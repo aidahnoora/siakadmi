@@ -116,9 +116,9 @@ class IdentitasSekolahController extends Controller
         }
 
         if ($sekolah) {
-            return redirect('absensi')->with('success', 'Data berhasil diperbarui!');
+            return redirect('sekolah')->with('success', 'Data berhasil diperbarui!');
         } else {
-            return redirect('absensi')->with('error','Data gagal diperbarui!');
+            return redirect('sekolah')->with('error','Data gagal diperbarui!');
         }
     }
 

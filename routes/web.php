@@ -10,6 +10,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\Api\SiswaController as ApiSiswaController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
@@ -65,10 +66,10 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function (){
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa');
     Route::get('/siswa/add', [SiswaController::class, 'create'])->name('siswa/add');
     Route::post('/siswa/save', [SiswaController::class, 'store'])->name('siswa/save');
-    Route::get('/siswa/detail/{id}', [SiswaController::class, 'show'])->name('siswa/detail');
-    Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('siswa/edit');
-    Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('siswa/update');
-    Route::get('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('siswa/delete');
+    Route::get('/siswa/detail/{nis}', [SiswaController::class, 'show'])->name('siswa/detail');
+    Route::get('/siswa/edit/{nis}', [SiswaController::class, 'edit'])->name('siswa/edit');
+    Route::put('/siswa/update/{nis}', [SiswaController::class, 'update'])->name('siswa/update');
+    Route::get('/siswa/delete/{nis}', [SiswaController::class, 'destroy'])->name('siswa/delete');
 
     Route::get('/mapel', [MapelController::class, 'index'])->name('mapel');
     Route::get('/mapel/add', [MapelController::class, 'create'])->name('mapel/add');
@@ -90,8 +91,8 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function (){
 
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
     Route::post('/absensi/save', [AbsensiController::class, 'store'])->name('absensi/save');
-    Route::get('/absensi/siswa/{id}', [AbsensiController::class, 'show'])->name('absensi/siswa');
-    Route::get('/absensi/siswa/tanggal/{id}', [AbsensiController::class, 'absensi'])->name('absensi/siswa/tanggal');
+    Route::get('/absensi/kelas/{id}', [AbsensiController::class, 'show'])->name('absensi/kelas');
+    Route::get('/absensi/siswa/tanggal/{nis}', [AbsensiController::class, 'absensi']);
     Route::get('/absensi/edit/{id}', [AbsensiController::class, 'edit'])->name('absensi/edit');
     Route::put('/absensi/update/{id}', [AbsensiController::class, 'update'])->name('absensi/update');
     Route::get('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('absensi/delete');
@@ -106,7 +107,7 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function (){
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
     Route::post('/nilai/save', [NilaiController::class, 'store'])->name('nilai/save');
     Route::get('/nilai/siswa/{id}', [NilaiController::class, 'show'])->name('nilai/siswa');
-    Route::get('/nilai/siswa/mapel/{id}', [NilaiController::class, 'nilai'])->name('nilai/siswa/mapel');
+    Route::get('/nilai/siswa/mapel/{nis}', [NilaiController::class, 'nilai']);
     Route::get('/nilai/edit/{id}', [NilaiController::class, 'edit'])->name('nilai/edit');
     Route::put('/nilai/update/{id}', [NilaiController::class, 'update'])->name('nilai/update');
     Route::get('/nilai/delete/{id}', [NilaiController::class, 'destroy'])->name('nilai/delete');
@@ -155,7 +156,10 @@ Route::middleware(['auth', 'checkrole:admin,guru'])->group(function (){
 });
 
 Route::middleware(['auth', 'checkrole:admin,siswa'])->group(function (){
-    //request by flutter
+    Route::get('/jadwal-siswa', [SiswaController::class, 'get_jadwal']);
+    Route::get('/absensi-siswa', [SiswaController::class, 'get_absensi']);
+    // Route::post('/absensi-siswa/search', [SiswaController::class, 'search']);
+    Route::get('/nilai-siswa', [SiswaController::class, 'get_nilai']);
 });
 
 Route::middleware(['auth', 'checkrole:admin,kepsek'])->group(function (){

@@ -144,6 +144,26 @@
                     </ul>
                 </li>
                 <?php endif; ?>
+                <?php if(Auth::user()->role == 'siswa'): ?>
+                <li class="nav-item">
+                    <a href="/jadwal-siswa" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-week"></i>
+                        <p>Jadwal</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/absensi-siswa" class="nav-link">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>Absensi</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/nilai-siswa" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>Nilai</p>
+                    </a>
+                </li>
+                <?php endif; ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

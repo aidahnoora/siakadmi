@@ -50,20 +50,20 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('siswa/update', $siswas->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('siswa/update', $siswas->nis) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="nomor_induk">Nomor Induk</label>
-                                            <input type="text" name="nomor_induk" class="form-control" value="{{ $siswas->nomor_induk }}" autofocus required>
+                                            <label for="nis">NISN</label>
+                                            <input type="text" name="nis" class="form-control" value="{{ $siswas->nis }}" autofocus required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="nis">NISN</label>
-                                            <input type="text" name="nis" class="form-control" value="{{ $siswas->nis }}" autofocus required>
+                                            <label for="nomor_induk">Nomor Induk</label>
+                                            <input type="text" name="nomor_induk" class="form-control" value="{{ $siswas->nomor_induk }}" autofocus required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

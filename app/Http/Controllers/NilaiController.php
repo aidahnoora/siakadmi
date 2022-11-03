@@ -19,9 +19,8 @@ class NilaiController extends Controller
     {
         $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
         $siswas = Siswa::orderBy('nama_siswa', 'ASC')->get();
-        $mapels = Mapel::get();
 
-        return view('pages.nilai.index', compact(['kelass', 'siswas', 'mapels']));
+        return view('pages.nilai.index', compact(['kelass', 'siswas']));
     }
 
     /**
@@ -44,7 +43,7 @@ class NilaiController extends Controller
     {
         $request->validate([
             'kelas_id' => 'required',
-            'siswa_id' => 'required',
+            'siswa_nis' => 'required',
             'mapel_id' => 'required',
             'tugas' => 'required',
             'rata_uh' => 'required',
@@ -54,7 +53,7 @@ class NilaiController extends Controller
 
         $nilai = Nilai::create([
             'kelas_id' => $request->kelas_id,
-            'siswa_id' => $request->siswa_id,
+            'siswa_nis' => $request->siswa_nis,
             'mapel_id' => $request->mapel_id,
             'tugas' => $request->tugas,
             'rata_uh' => $request->rata_uh,
@@ -63,9 +62,9 @@ class NilaiController extends Controller
         ]);
 
         if ($nilai) {
-            return redirect('nilai')->with(['success' => 'Data berhasil disimpan!']);
+            return redirect()->back()->with(['success' => 'Data berhasil disimpan!']);
         } else {
-            return redirect('nilai')->with(['error' => 'Data gagal disimpan!']);
+            return redirect()->back()->with(['error' => 'Data gagal disimpan!']);
         }
     }
 
@@ -78,16 +77,17 @@ class NilaiController extends Controller
     public function show($id)
     {
         $kelass = Kelas::findorfail($id);
-        $siswas = Siswa::orderBy('nomor_induk', 'ASC')->where('kelas_id', $id)->get();
+        $siswas = Siswa::orderBy('nis', 'ASC')->where('kelas_id', $id)->get();
+        $mapels = Mapel::get();
         // $nilais = Nilai::orderBy('created_at', 'ASC')->where('kelas_id', $id)->get();
 
-        return view('pages.nilai.show', compact(['siswas', 'kelass']));
+        return view('pages.nilai.show', compact(['siswas', 'kelass', 'mapels']));
     }
 
-    public function nilai($id)
+    public function nilai($nis)
     {
-        $siswas = Siswa::findorfail($id);
-        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_id', $id)->get();
+        $siswas = Siswa::where('nis', $nis)->first();
+        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_nis', $nis)->get();
         $mapels = Mapel::all();
 
         return view('pages.nilai.detail_nilai', compact(['nilais', 'siswas', 'mapels']));
@@ -153,6 +153,6 @@ class NilaiController extends Controller
         $nilais = Nilai::find($id);
         $nilais->delete();
 
-        return redirect('nilai')->with('success', 'Data berhasil dihapus!');
+        return redirect()->back()->with('success', 'Data berhasil dihapus!');
     }
 }

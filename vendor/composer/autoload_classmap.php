@@ -10,6 +10,7 @@ return array(
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AbsensiController' => $baseDir . '/app/Http/Controllers/AbsensiController.php',
     'App\\Http\\Controllers\\Api\\AbsensiController' => $baseDir . '/app/Http/Controllers/Api/AbsensiController.php',
+    'App\\Http\\Controllers\\Api\\AuthController' => $baseDir . '/app/Http/Controllers/Api/AuthController.php',
     'App\\Http\\Controllers\\Api\\NilaiController' => $baseDir . '/app/Http/Controllers/Api/NilaiController.php',
     'App\\Http\\Controllers\\Api\\SiswaController' => $baseDir . '/app/Http/Controllers/Api/SiswaController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',

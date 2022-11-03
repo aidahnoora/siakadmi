@@ -16,10 +16,12 @@ class CreateAbsensiTable extends Migration
         Schema::create('absensi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kelas_id');
-            $table->foreignId('siswa_id');
+            $table->bigInteger('siswa_nis');
             $table->string('tanggal');
             $table->enum('keterangan', ['hadir', 'sakit', 'izin', 'alfa'])->default('hadir');
             $table->timestamps();
+
+            $table->foreign('siswa_nis')->references('nis')->on('siswa')->onDelete('cascade');
         });
     }
 

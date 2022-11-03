@@ -128,7 +128,7 @@
             });
         });
         $(document).ready(function() {
-            $('#siswa_id').on('change', function() {
+            $('#siswa_nis').on('change', function() {
                 const selected = $(this).find('option:selected');
                 const jab = selected.data('kelas');
 

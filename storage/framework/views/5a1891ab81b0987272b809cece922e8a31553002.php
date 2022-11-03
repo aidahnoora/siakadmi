@@ -18,7 +18,6 @@
 </head>
 
 <body class="hold-transition login-page">
-    
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -90,13 +89,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                    <?php echo e(old('remember') ? 'checked' : ''); ?>>
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
+
                         </div>
                         <!-- /.col -->
                         <div class="col-4">

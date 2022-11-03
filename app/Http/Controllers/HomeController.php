@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -32,7 +34,15 @@ class HomeController extends Controller
         $jml_kelas = Kelas::count();
         $jml_user = User::count();
 
-        return view('dashboard', compact('jml_siswa', 'jml_guru', 'jml_kelas', 'jml_user'));
+        $sakit = Absensi::where('keterangan', 'sakit')->where('siswa_nis', Auth::user()->siswa_nis)->count();
+        $izin = Absensi::where('keterangan', 'izin')->where('siswa_nis', Auth::user()->siswa_nis)->count();
+        $alfa = Absensi::where('keterangan', 'alfa')->where('siswa_nis', Auth::user()->siswa_nis)->count();
+
+        if(Auth::user()->role == 'siswa') {
+            return view('dashboard-siswa', compact('sakit', 'izin', 'alfa'));
+        } else {
+            return view('dashboard', compact('jml_siswa', 'jml_guru', 'jml_kelas', 'jml_user'));
+        }
     }
 
     public function show()

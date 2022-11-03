@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
+use App\Models\Jadwal;
 use App\Models\Kelas;
+use App\Models\Nilai;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
@@ -62,8 +66,8 @@ class SiswaController extends Controller
         $foto->storeAs('public/foto', $foto->hashName());
 
         $siswa = Siswa::create([
-            'nomor_induk' => $request->nomor_induk,
             'nis' => $request->nis,
+            'nomor_induk' => $request->nomor_induk,
             'nama_siswa' => $request->nama_siswa,
             'kelas_id' => $request->kelas_id,
             'jns_kelamin' => $request->jns_kelamin,
@@ -79,9 +83,9 @@ class SiswaController extends Controller
         ]);
 
         if ($siswa) {
-            return redirect('siswa')->with(['success' => 'Data berhasil disimpan!']);
+            return redirect()->back()->with(['success' => 'Data berhasil disimpan!']);
         } else {
-            return redirect('siswa')->with(['error' => 'Data gagal disimpan!']);
+            return redirect()->back()->with(['error' => 'Data gagal disimpan!']);
         }
     }
 
@@ -91,10 +95,10 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($nis)
     {
-        $kelass = Kelas::findorfail($id);
-        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->where('kelas_id', $id)->get();
+        $kelass = Kelas::findorfail($nis);
+        $siswas = Siswa::orderBy('nama_siswa', 'ASC')->where('kelas_id', $nis)->get();
 
         return view('pages.siswa.show', compact(['kelass', 'siswas']));
     }
@@ -105,9 +109,9 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nis)
     {
-        $siswas = Siswa::findorfail($id);
+        $siswas = Siswa::where('nis', $nis)->first();
         $kelass = Kelas::get();
 
         return view('pages.siswa.edit', compact(['siswas', 'kelass']));
@@ -120,11 +124,11 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $nis)
     {
         $request->validate([
-            'nomor_induk' => 'required',
             'nis' => 'required',
+            'nomor_induk' => 'required',
             'nama_siswa' => 'required',
             'kelas_id' => 'required',
             'jns_kelamin' => 'required',
@@ -139,7 +143,7 @@ class SiswaController extends Controller
             'alamat' => 'required',
         ]);
 
-        $siswa = Siswa::findorfail($id);
+        $siswa = Siswa::where('nis', $nis)->first();
 
         if ($request->file('foto') == "") {
             $siswa->update([
@@ -194,11 +198,45 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($nis)
     {
-        $siswas = Siswa::find($id);
+        $siswas = Siswa::where('nis', $nis)->first();
         $siswas->delete();
 
-        return redirect('siswa')->with('success', 'Data berhasil dihapus!');
+        return redirect()->back()->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function get_jadwal()
+    {
+        $jadwals = Jadwal::where('kelas_id', Auth::user()->siswa->kelas_id)->get();
+
+        return view('siswa.jadwal', compact('jadwals'));
+    }
+
+    public function get_absensi()
+    {
+        $absensis = Absensi::where('siswa_nis', Auth::user()->siswa_nis)->get();
+
+        return view('siswa.absensi', compact('absensis'));
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $absensis = Absensi::query();
+
+    //     $fromDate = $request->input('fromDate');
+    //     $toDate = $request->input('toDate');
+
+    //     $absensis = Absensi::where('tanggal', '>=', $fromDate)->where('tanggal', '<=', $toDate)
+    //         ->orderBy('tanggal', 'ASC')->where('siswa_nis', $request->nis)->get();
+
+    //     return view('siswa.absensi', compact('absensis'));
+    // }
+
+    public function get_nilai()
+    {
+        $nilais = Nilai::where('siswa_nis', Auth::user()->siswa_nis)->get();
+
+        return view('siswa.nilai', compact('nilais'));
     }
 }

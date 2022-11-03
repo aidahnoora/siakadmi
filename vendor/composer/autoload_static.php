@@ -521,6 +521,7 @@ class ComposerStaticInitfe148e2df694c2ca0605ac9e082f9736
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AbsensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/AbsensiController.php',
         'App\\Http\\Controllers\\Api\\AbsensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/AbsensiController.php',
+        'App\\Http\\Controllers\\Api\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/AuthController.php',
         'App\\Http\\Controllers\\Api\\NilaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/NilaiController.php',
         'App\\Http\\Controllers\\Api\\SiswaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/SiswaController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',

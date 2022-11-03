@@ -76,75 +76,6 @@
         </div><!-- /.container-fluid -->
     </div>
 
-    <div class="modal fade" id="modal-lg">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Nilai</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('nilai/save') }}" method="POST">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="siswa_id">Nama Siswa</label>
-                                    <select id="siswa_id" name="siswa_id"
-                                        class="form-control @error('siswa_id') is-invalid @enderror select2bs4">
-                                        <option value="" selected>-- Pilih Siswa --</option>
-                                        @foreach ($siswas as $siswa)
-                                            <option value="{{ $siswa->id }}" data-kelas="{{ $siswa->kelas->id }}">{{ $siswa->nama_siswa }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kelas_id">Kelas</label>
-                                    <input type="text" name="kelas_id" id="input" class="form-control" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tugas">Nilai Tugas</label>
-                                    <input type="number" id="tugas" name="tugas" class="form-control @error('tugas') is-invalid @enderror">
-                                </div>
-                                <div class="form-group">
-                                    <label for="rata_uh">Nilai Rata-rata UH</label>
-                                    <input type="number" name="rata_uh" class="form-control @error('rata_uh') is-invalid @enderror">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="mapel_id">Mata Pelajaran</label>
-                                    <select id="mapel_id" name="mapel_id"
-                                        class="form-control @error('mapel_id') is-invalid @enderror select2bs4">
-                                        <option value="" selected>-- Pilih Mata Pelajaran --</option>
-                                        @foreach ($mapels as $mapel)
-                                            <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="uts">Nilai UTS</label>
-                                    <input type="number" name="uts" class="form-control @error('uts') is-invalid @enderror">
-                                </div>
-                                <div class="form-group">
-                                    <label for="uas">Nilai UAS</label>
-                                    <input type="number" name="uas" class="form-control @error('uas') is-invalid @enderror">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
 @endsection
 
 @section('js')
@@ -180,14 +111,6 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
-            });
-        });
-        $(document).ready(function() {
-            $('#siswa_id').on('change', function() {
-                const selected = $(this).find('option:selected');
-                const jab = selected.data('kelas');
-
-                $("#input").val(jab);
             });
         });
     </script>

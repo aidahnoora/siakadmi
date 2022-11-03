@@ -56,8 +56,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="siswa_id">Nama Siswa</label>
-                                            <input type="text" name="siswa_id" class="form-control" readonly value="{{ $absensis->siswa->nama_siswa }}">
+                                            <label for="siswa_nis">Nama Siswa</label>
+                                            <input type="text" name="siswa_nis" class="form-control" readonly value="{{ $absensis->siswa->nama_siswa }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="tanggal">Tanggal</label>

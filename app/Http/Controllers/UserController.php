@@ -47,14 +47,19 @@ class UserController extends Controller
             'role' => 'required'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $request->role,
+            'siswa_nis' => $request->siswa_nis,
         ]);
 
-        return redirect('user');
+        if ($user) {
+            return redirect('user')->with('success', 'Data berhasil ditambahkan!');
+        } else {
+            return redirect('user')->with('error', 'Data gagal ditambahkan!');
+        }
     }
 
     /**
@@ -76,7 +81,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $users = User::findorfail($id);
+        $users = User::with('siswa')->findorfail($id);
 
         return view('pages.user.edit', compact('users'));
     }
@@ -103,7 +108,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => $request->role,
+            'siswa_nis' => $request->siswa_nis,
         ];
 
         $post->update($post_data);
