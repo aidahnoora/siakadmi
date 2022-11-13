@@ -69,7 +69,7 @@
                                         <td class="text-center">{{ $alfa->where('siswa_nis', $item->nis)->count() }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('absensi/siswa/tanggal', $item->nis) }}" class="btn btn-icon btn-sm btn-primary">
-                                                <i class="fas fa-search-plus"></i>
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
                                     </tr>

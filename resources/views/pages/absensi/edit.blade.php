@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="tanggal">Tanggal</label>
-                                            <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" value="{{ $absensis->tanggal }}">
+                                            <input type="input" class="form-control" value="{{ $absensis->tanggal }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

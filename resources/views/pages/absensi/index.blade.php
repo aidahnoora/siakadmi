@@ -39,9 +39,9 @@
                         <div class="card-header">
                             <h2 class="card-title">Absensi Siswa</h2>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
+                                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
                                     Tambah Data
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
                         <div class="card-body table-responsive">
@@ -60,7 +60,11 @@
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('absensi/kelas', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
-                                                    <i class="fas fa-search-plus"></i>
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('absensi/add', $item->id) }}"
+                                                    class="btn btn-icon btn-sm btn-success">
+                                                    <i class="fas fa-plus"></i>
                                                 </a>
                                             </td>
                                         </tr>

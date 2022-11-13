@@ -10,11 +10,9 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsensiController;
-use App\Http\Controllers\Api\SiswaController as ApiSiswaController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
-use App\Http\Controllers\SiswaLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +88,7 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function (){
     Route::put('/sekolah/update/{id}', [IdentitasSekolahController::class, 'update'])->name('sekolah/update');
 
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
+    Route::get('/absensi/add/{id}', [AbsensiController::class, 'create'])->name('absensi/add');
     Route::post('/absensi/save', [AbsensiController::class, 'store'])->name('absensi/save');
     Route::get('/absensi/kelas/{id}', [AbsensiController::class, 'show'])->name('absensi/kelas');
     Route::get('/absensi/siswa/tanggal/{nis}', [AbsensiController::class, 'absensi']);
@@ -105,6 +104,7 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function (){
     Route::get('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('jadwal/delete');
 
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
+    Route::get('/nilai/add/{nis}', [NilaiController::class, 'create'])->name('nilai/add');
     Route::post('/nilai/save', [NilaiController::class, 'store'])->name('nilai/save');
     Route::get('/nilai/siswa/{id}', [NilaiController::class, 'show'])->name('nilai/siswa');
     Route::get('/nilai/siswa/mapel/{nis}', [NilaiController::class, 'nilai']);

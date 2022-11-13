@@ -186,7 +186,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\siakad\\storage\\framework/cache/data',
+        'path' => 'C:\\laragon\\www\\local\\siakad\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -357,12 +357,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\siakad\\storage\\app',
+        'root' => 'C:\\laragon\\www\\local\\siakad\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\siakad\\storage\\app/public',
+        'root' => 'C:\\laragon\\www\\local\\siakad\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -380,7 +380,7 @@
     ),
     'links' => 
     array (
-      'C:\\xampp\\htdocs\\siakad\\public\\storage' => 'C:\\xampp\\htdocs\\siakad\\storage\\app/public',
+      'C:\\laragon\\www\\local\\siakad\\public\\storage' => 'C:\\laragon\\www\\local\\siakad\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -415,13 +415,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\siakad\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\local\\siakad\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\siakad\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\local\\siakad\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -472,7 +472,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\xampp\\htdocs\\siakad\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\local\\siakad\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -538,7 +538,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\siakad\\resources\\views/vendor/mail',
+        0 => 'C:\\laragon\\www\\local\\siakad\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -643,7 +643,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\siakad\\storage\\framework/sessions',
+    'files' => 'C:\\laragon\\www\\local\\siakad\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -706,9 +706,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\siakad\\resources\\views',
+      0 => 'C:\\laragon\\www\\local\\siakad\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\siakad\\storage\\framework\\views',
+    'compiled' => 'C:\\laragon\\www\\local\\siakad\\storage\\framework\\views',
   ),
   'flare' => 
   array (

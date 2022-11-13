@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Absensi;
 use App\Models\Kelas;
 use App\Models\Siswa;
+use Carbon\Carbon;
 
 class AbsensiController extends Controller
 {
@@ -27,9 +28,12 @@ class AbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $kelass = Kelas::findorfail($id);
+        $siswas = Siswa::orderBy('nis', 'ASC')->where('kelas_id', $id)->get();
+
+        return view('pages.absensi.create', compact(['kelass', 'siswas']));
     }
 
     /**
@@ -40,24 +44,30 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'siswa_nis' => 'required',
-            'kelas_id' => 'required',
-            'tanggal' => 'required',
-            'keterangan' => 'required'
-        ]);
+        // $request->validate([
+        //     'siswa_nis' => 'required',
+        //     'kelas_id' => 'required',
+        //     'tanggal' => 'required',
+        //     'keterangan' => 'required'
+        // ]);
 
-        $absensi = Absensi::create([
-            'siswa_nis' => $request->siswa_nis,
-            'kelas_id' => $request->kelas_id,
-            'tanggal' => $request->tanggal,
-            'keterangan' => $request->keterangan,
-        ]);
+        $siswa_nis = $request->siswa_nis;
+        $now = Carbon::now('utc')->toDateTimeString();
 
-        if ($absensi) {
-            return redirect()->back()->with('success', 'Data berhasil disimpan!');
+        foreach ($siswa_nis as $key => $value) {
+            $data = Absensi::insert([
+                'siswa_nis' => $value,
+                'kelas_id' => $request->kelas_id[$key],
+                'tanggal' => $now,
+                'keterangan' => $request->keterangan[$key],
+                'created_at' => $now
+            ]);
+        }
+
+        if ($data) {
+            return redirect('absensi')->with(['success' => 'Data berhasil disimpan!']);
         } else {
-            return redirect()->back()->with('error', 'Data gagal disimpan!');
+            return redirect('absensi')->with(['error' => 'Data gagal disimpan!']);
         }
     }
 
@@ -111,14 +121,12 @@ class AbsensiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'tanggal' => 'required',
             'keterangan' => 'required'
         ]);
 
         $post = Absensi::findorfail($id);
 
         $post_data = [
-            'tanggal' => $request->tanggal,
             'keterangan' => $request->keterangan,
         ];
 

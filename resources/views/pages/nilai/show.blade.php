@@ -38,9 +38,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
                                     Tambah Data
-                                </button>
+                                </button> --}}
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
                                     Kembali
                                 </a>
@@ -65,7 +65,11 @@
                                             <td class="text-center">
                                                 <a href="{{ route('nilai/siswa/mapel', $item->nis) }}"
                                                     class="btn btn-icon btn-sm btn-primary">
-                                                    <i class="fas fa-search-plus"></i>
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('nilai/add', $item->nis) }}"
+                                                    class="btn btn-icon btn-sm btn-success">
+                                                    <i class="fas fa-plus"></i>
                                                 </a>
                                                 {{-- <a href="{{ route('nilai/edit', $item->id) }}" class="btn btn-icon btn-sm btn-warning">
                                                 <i class="far fa-edit"></i>

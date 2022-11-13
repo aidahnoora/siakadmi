@@ -7,6 +7,8 @@ use App\Models\Nilai;
 use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Siswa;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class NilaiController extends Controller
 {
@@ -28,9 +30,13 @@ class NilaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($nis)
     {
-        //
+        $siswas = Siswa::where('nis', $nis)->first();
+        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_nis', $nis)->get();
+        $mapels = Mapel::all();
+
+        return view('pages.nilai.create', compact(['siswas', 'nilais', 'mapels']));
     }
 
     /**
@@ -42,8 +48,8 @@ class NilaiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kelas_id' => 'required',
             'siswa_nis' => 'required',
+            'kelas_id' => 'required',
             'mapel_id' => 'required',
             'tugas' => 'required',
             'rata_uh' => 'required',
@@ -51,20 +57,31 @@ class NilaiController extends Controller
             'uas' => 'required'
         ]);
 
-        $nilai = Nilai::create([
-            'kelas_id' => $request->kelas_id,
-            'siswa_nis' => $request->siswa_nis,
-            'mapel_id' => $request->mapel_id,
-            'tugas' => $request->tugas,
-            'rata_uh' => $request->rata_uh,
-            'uts' => $request->uts,
-            'uas' => $request->uas,
-        ]);
+        $getSiswa = Siswa::with('kelas')->first();
 
-        if ($nilai) {
-            return redirect()->back()->with(['success' => 'Data berhasil disimpan!']);
+        $kelas_id = $getSiswa->kelas_id;
+        $siswa_nis = $getSiswa->nis;
+        $mapel_id = $request->mapel_id;
+
+        $now = Carbon::now('utc')->toDateTimeString();
+
+        foreach ($mapel_id as $key => $value) {
+            $data = Nilai::insert([
+                'siswa_nis' => $siswa_nis,
+                'kelas_id' => $kelas_id,
+                'mapel_id' => $value,
+                'tugas' => $request->tugas[$key],
+                'rata_uh' => $request->rata_uh[$key],
+                'uts' => $request->uts[$key],
+                'uas' => $request->uas[$key],
+                'created_at' => $now
+            ]);
+        }
+
+        if ($data) {
+            return redirect('nilai')->with(['success' => 'Data berhasil disimpan!']);
         } else {
-            return redirect()->back()->with(['error' => 'Data gagal disimpan!']);
+            return redirect('nilai')->with(['error' => 'Data gagal disimpan!']);
         }
     }
 

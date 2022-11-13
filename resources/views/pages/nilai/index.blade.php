@@ -58,7 +58,7 @@
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('nilai/siswa', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
-                                                    <i class="fas fa-search-plus"></i>
+                                                    <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>
