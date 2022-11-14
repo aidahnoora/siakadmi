@@ -32,6 +32,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Siswa',
             'email' => 'siswa@gmail.com',
             'password' => bcrypt('siswa'),
+            'siswa_nis' => 1233,
             'role' => 'siswa',
         ]);
 

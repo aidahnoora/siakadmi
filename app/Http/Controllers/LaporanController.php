@@ -23,7 +23,6 @@ class LaporanController extends Controller
     public function siswa(Request $request)
     {
         $kelass = Kelas::all();
-
         $siswas = Siswa::query();
 
         if($request->kelas_id) {

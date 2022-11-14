@@ -47,15 +47,15 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'siswa_nis' => 'required',
-            'kelas_id' => 'required',
-            'mapel_id' => 'required',
-            'tugas' => 'required',
-            'rata_uh' => 'required',
-            'uts' => 'required',
-            'uas' => 'required'
-        ]);
+        // $request->validate([
+        //     'siswa_nis' => 'required',
+        //     'kelas_id' => 'required',
+        //     'mapel_id' => 'required',
+        //     'tugas' => 'required',
+        //     'rata_uh' => 'required',
+        //     'uts' => 'required',
+        //     'uas' => 'required'
+        // ]);
 
         $getSiswa = Siswa::with('kelas')->first();
 
