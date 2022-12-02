@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,49 +11,66 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    private $response = [
-        'message' => null,
-        'data' => null,
-    ];
-
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if(!$user || ! Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'failed',
+        try {
+            $request->validate([
+                'email' => 'email|required',
+                'password' => 'required',
             ]);
+
+            $credentials = request(['email', 'password']);
+
+            if(!Auth::attempt($credentials)) {
+                return ResponseFormatter::error([
+                    'message' => 'Unauthorized'
+                ], 'Authentication Failed', 500);
+            }
+
+            $user = User::where('email', $request->email)->first();
+
+            if(!Hash::check($request->password, $user->password, [])) {
+                throw new \Exception('Invalid Credentials');
+            }
+
+            $tokenResult = $user->createToken('authToken')->plainTextToken;
+
+            return ResponseFormatter::success([
+                'access_token' => $tokenResult,
+                'token_type' => 'Bearer',
+                'user' => $user
+            ], 'Authenticated');
+
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong!',
+                'error' => $error
+            ], 'Authentication Failed', 500);
         }
-
-        $token = $user->createToken($request->device_name)->plainTextToken;
-        $this->response['message'] = 'success';
-        $this->response['data'] = [
-            'token' => $token
-        ];
-
-        return response()->json($this->response, 200);
     }
 
-    public function me() {
+    public function fetch(Request $request)
+    {
+        return ResponseFormatter::success($request->user(), 'Data profile user berhasil diambil');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $request->all();
+
         $user = Auth::user();
+        $user->update($data);
 
-        $this->response['message'] = 'success';
-        $this->response['data'] = $user;
-
-        return response()->json($this->response, 200);
+        return ResponseFormatter::success($user, 'Profile updated!');
     }
 
-    public function logout() {
-        $logout = auth()->user()->currentAccessToken()->delete();
+    public function logout(Request $request)
+    {
+        $token = $request->user()->currentAccessToken()->delete();
 
-        $this->response['message'] = 'success';
-
-        return response()->json($this->response, 200);
+        return ResponseFormatter::success([
+            $token,
+            'Token revoked!'
+        ]);
     }
 }
