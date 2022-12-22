@@ -51,7 +51,13 @@ class AuthController extends Controller
 
     public function fetch(Request $request)
     {
-        return ResponseFormatter::success($request->user(), 'Data profile user berhasil diambil');
+        $user = User::with('siswa')->find(Auth::id());
+
+        return ResponseFormatter::success([
+            $user,
+            'Data profile user berhasil diambil'
+            ]
+        );
     }
 
     public function updateProfile(Request $request)
