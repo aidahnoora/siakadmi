@@ -80,19 +80,11 @@ class SiswaController extends Controller
         $izin = Absensi::where('keterangan', 'izin')->where('siswa_nis', Auth::user()->siswa_nis)->count();
         $alfa = Absensi::where('keterangan', 'alfa')->where('siswa_nis', Auth::user()->siswa_nis)->count();
 
-        if (Auth::user()->role == 'siswa') {
-            return response()->json([
-                'code' => 200,
-                'status' => 'success',
-                // 'data' => [
-                //     'sakit' => $sakit,
-                //     'izin' => $izin,
-                //     'alfa' => $alfa,
-                //     'absensis' => $newabsensis
-                // ]
-                'data' => $newabsensis
-            ]);
-        }
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'data' => $newabsensis
+        ]);
     }
 
     public function get_nilai()

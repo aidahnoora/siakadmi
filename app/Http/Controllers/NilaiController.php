@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Siswa;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class NilaiController extends Controller
@@ -32,7 +33,7 @@ class NilaiController extends Controller
      */
     public function create($nis)
     {
-        $siswas = Siswa::where('nis', $nis)->first();
+        $siswas = Siswa::where('nis', $nis)->find($nis);
         $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_nis', $nis)->get();
         $mapels = Mapel::all();
 
@@ -47,41 +48,25 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'siswa_nis' => 'required',
-        //     'kelas_id' => 'required',
-        //     'mapel_id' => 'required',
-        //     'tugas' => 'required',
-        //     'rata_uh' => 'required',
-        //     'uts' => 'required',
-        //     'uas' => 'required'
-        // ]);
+        try {
+            $mapel_id = $request->mapel_id;
 
-        $getSiswa = Siswa::with('kelas')->first();
+            foreach ($mapel_id as $key => $value) {
+                $data = Nilai::insert([
+                    'siswa_nis' => $request->nis,
+                    'kelas_id' => $request->kelas_id,
+                    'mapel_id' => $value,
+                    'tugas' => $request->tugas[$key],
+                    'rata_uh' => $request->rata_uh[$key],
+                    'uts' => $request->uts[$key],
+                    'uas' => $request->uas[$key],
+                    'created_at' => Carbon::now(),
+                ]);
+            }
 
-        $kelas_id = $getSiswa->kelas_id;
-        $siswa_nis = $getSiswa->nis;
-        $mapel_id = $request->mapel_id;
-
-        $now = Carbon::now('utc')->toDateTimeString();
-
-        foreach ($mapel_id as $key => $value) {
-            $data = Nilai::insert([
-                'siswa_nis' => $siswa_nis,
-                'kelas_id' => $kelas_id,
-                'mapel_id' => $value,
-                'tugas' => $request->tugas[$key],
-                'rata_uh' => $request->rata_uh[$key],
-                'uts' => $request->uts[$key],
-                'uas' => $request->uas[$key],
-                'created_at' => $now
-            ]);
-        }
-
-        if ($data) {
             return redirect('nilai')->with(['success' => 'Data berhasil disimpan!']);
-        } else {
-            return redirect('nilai')->with(['error' => 'Data gagal disimpan!']);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

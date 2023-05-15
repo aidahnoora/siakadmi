@@ -49,7 +49,7 @@
                                                 <div class="col-sm-3">
                                                     <select name="siswa_nis" id="siswa_nis" class="form-control">
                                                         @foreach ($siswas as $item)
-                                                            <option value="{{ $item->id }}" {{ request('siswa_nis')==$item->id?'selected':'' }}>{{ $item->nama_siswa }}</option>
+                                                            <option value="{{ $item->nis }}" {{ request('siswa_nis')==$item->nis?'selected':'' }}>{{ $item->nama_siswa }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

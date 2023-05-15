@@ -60,7 +60,8 @@ class AbsensiController extends Controller
                 'kelas_id' => $request->kelas_id[$key],
                 'tanggal' => $now,
                 'keterangan' => $request->keterangan[$key],
-                'created_at' => $now
+                'created_at' => $now,
+                'updated_at' => $now
             ]);
         }
 

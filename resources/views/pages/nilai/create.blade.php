@@ -79,6 +79,8 @@
                                                 <td>
                                                     <input type="number" name="uas[]" class="form-control" required>
                                                 </td>
+                                                <input type="hidden" value="{{ $siswas->kelas_id }}" name="kelas_id">
+                                                <input type="hidden" value="{{ $siswas->nis }}" name="nis">
                                             </tr>
                                         @endforeach
                                     </tbody>
