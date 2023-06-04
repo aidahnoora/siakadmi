@@ -29,10 +29,10 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $siswa = User::create([
-            'name' => 'Siswa',
+            'name' => 'Arraya Alif Genie Amal',
             'email' => 'siswa@gmail.com',
             'password' => bcrypt('siswa'),
-            'siswa_nis' => 1233,
+            'siswa_nis' => 1200,
             'role' => 'siswa',
         ]);
 

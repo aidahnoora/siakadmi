@@ -42,7 +42,7 @@
                                     Tambah Data
                                 </button> --}}
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
-                                    Kembali
+                                    <i class="fas fa-arrow-left"></i> Kembali
                                 </a>
                             </div>
                         </div>
@@ -63,13 +63,17 @@
                                             <td>{{ $item->nis }}</td>
                                             <td>{{ $item->nama_siswa }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('nilai/siswa/mapel', $item->nis) }}"
+                                                <a href="{{ route('nilai/siswa/mapel/semester1', $item->nis) }}"
                                                     class="btn btn-icon btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-eye"></i> Semester 1
+                                                </a>
+                                                <a href="{{ route('nilai/siswa/mapel/semester2', $item->nis) }}"
+                                                    class="btn btn-icon btn-sm btn-primary">
+                                                    <i class="fas fa-eye"></i> Semester 2
                                                 </a>
                                                 <a href="{{ route('nilai/add', $item->nis) }}"
                                                     class="btn btn-icon btn-sm btn-success">
-                                                    <i class="fas fa-plus"></i>
+                                                    <i class="fas fa-plus"></i> Tambah
                                                 </a>
                                                 {{-- <a href="{{ route('nilai/edit', $item->id) }}" class="btn btn-icon btn-sm btn-warning">
                                                 <i class="far fa-edit"></i>

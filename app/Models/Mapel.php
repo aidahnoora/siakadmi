@@ -13,7 +13,7 @@ class Mapel extends Model
     protected $primaryKey = "id";
     protected $fillable = [
         'nama_mapel',
-        'tahun_mapel',
+        // 'tahun_mapel',
         'semester',
     ];
 }

@@ -17,7 +17,7 @@ class CreateAbsensiTable extends Migration
             $table->id();
             $table->foreignId('kelas_id');
             $table->bigInteger('siswa_nis');
-            $table->string('tanggal');
+            $table->date('tanggal');
             $table->enum('keterangan', ['Hadir', 'Sakit', 'Izin', 'Alfa'])->default('Hadir');
             $table->timestamps();
 

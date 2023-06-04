@@ -36,16 +36,6 @@
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Jadwal</h2>
-                            <div class="card-tools">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                                    Tambah Data
-                                </button>
-                            </div>
-                        </div>
                         <div class="card-body table-responsive">
                             <table id="example1" class="table table-bordered table-hover">
                                 <thead class="text-center">
@@ -61,8 +51,11 @@
                                             <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('jadwal/detail', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
+                                                <a href="{{ route('jadwal/semester1', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
+                                                    <i class="fas fa-eye"></i> Semester 1
+                                                </a>
+                                                <a href="{{ route('jadwal/semester2', $item->id) }}" class="btn btn-icon btn-sm btn-primary">
+                                                    <i class="fas fa-eye"></i> Semester 2
                                                 </a>
                                             </td>
                                         </tr>
@@ -78,78 +71,6 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
-
-    <div class="modal fade" id="modal-lg">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Jadwal</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('jadwal/save') }}" method="POST">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="hari_id">Hari</label>
-                                    <select id="hari_id" name="hari_id"
-                                        class="form-control @error('hari_id') is-invalid @enderror select2bs4">
-                                        <option value="" selected>-- Pilih Hari --</option>
-                                        @foreach ($haris as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama_hari }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kelas_id">Kelas</label>
-                                    <select id="kelas_id" name="kelas_id"
-                                        class="form-control @error('kelas_id') is-invalid @enderror select2bs4">
-                                        <option value="" selected>-- Pilih Kelas --</option>
-                                        @foreach ($kelass as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="mapel_id">Mata Pelajaran</label>
-                                    <select id="mapel_id" name="mapel_id"
-                                        class="form-control @error('mapel_id') is-invalid @enderror select2bs4">
-                                        <option value="" selected>-- Pilih Mata Pelajaran --</option>
-                                        @foreach ($mapels as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="jam_mulai">Jam Mulai</label>
-                                    <input type="time" id="jam_mulai" name="jam_mulai"
-                                        class="form-control @error('jam_mulai') is-invalid @enderror"
-                                        placeholder='JJ:mm:dd'>
-                                </div>
-                                <div class="form-group">
-                                    <label for="jam_selesai">Jam Selesai</label>
-                                    <input type="time" id="jam_selesai" name="jam_selesai"
-                                        class="form-control @error('jam_selesai') is-invalid @enderror"
-                                        placeholder='JJ:mm:dd'>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
     </div>
 @endsection
 

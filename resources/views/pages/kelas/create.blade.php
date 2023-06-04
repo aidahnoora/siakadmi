@@ -36,7 +36,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/kelas" class="btn btn-success">Kembali</a>
+                                <a href="/kelas" class="btn btn-success">
+                                    <i class="fas fa-arrow-left"></i> Kembali
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -57,10 +59,11 @@
                                     <input type="text" name="nama_kelas" class="form-control" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="guru_id">Wali Kelas</label>
-                                    <select class="form-control" id="guru_id" name="guru_id">
+                                    <label for="guru_nip">Wali Kelas</label>
+                                    <select class="form-control" id="guru_nip" name="guru_nip">
+                                        <option value="" selected disabled>Pilih Wali Kelas</option>
                                         @foreach ($gurus as $guru)
-                                        <option value="{{ $guru->id }}" {{ old('id') == $guru->id ? 'selected' : '' }}>{{ $guru->nama_guru }}</option>
+                                        <option value="{{ $guru->nip }}" {{ old('id') == $guru->nip ? 'selected' : '' }}>{{ $guru->nama_guru }}</option>
                                         @endforeach
                                     </select>
                                 </div>

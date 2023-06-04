@@ -55,7 +55,9 @@
                                                     <input type="date" class="form-control input-sm" id="toDate" name="toDate" required>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button type="submit" class="btn" name="search" title="Search"><img src="https://img.icons8.com/android/search"></button>
+                                                    <button type="submit" class="btn btn-icon btn-primary" name="search" title="Search" width="20">
+                                                        <i class="fas fa-search"></i> Cari
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

@@ -41,7 +41,7 @@
                             <h2 class="card-title">Tambah Nilai : {{ $siswas->nama_siswa }}</h2>
                             <div class="card-tools">
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
-                                    Kembali
+                                    <i class="fas fa-arrow-left"></i> Kembali
                                 </a>
                             </div>
                         </div>
@@ -61,29 +61,79 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($mapels as $item)
+                                            @php
+                                                $tugas = false;
+                                                $rataUh = false;
+                                                $uts = false;
+                                                $uas = false;
+                                            @endphp
+
+                                            @foreach ($nilais as $nilai)
+                                                @if (isset($nilai->mapel_id))
+                                                    @php
+                                                        if ($item->id == $nilai->mapel_id) {
+                                                            $tugas = true;
+                                                            $rataUh = true;
+                                                            $uts = true;
+                                                            $uas = true;
+                                                            break;
+                                                        }
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            {{-- @php
+                                                    $tugas = $item->id == $item->mapel_id;
+                                                    $rataUh = $item->id == $item->mapel_id;
+                                                    $uts = $item->id == $item->mapel_id;
+                                                    $uas = $item->id == $item->mapel_id;
+                                                @endphp
+                                            @endforelse --}}
+
                                             <tr>
                                                 <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
                                                 <td>
                                                     {{ $item->nama_mapel }}
-                                                    <input type="hidden" name="mapel_id[]" class="form-control" value="{{ $item->id }}">
                                                 </td>
-                                                <td>
-                                                    <input type="number" name="tugas[]" class="form-control" required>
+                                                <td class="text-center">
+                                                    @if ($tugas == false || count($nilais) <= 0)
+                                                        <input type="number" name="tugas[]" class="form-control" required>
+                                                        {{-- <input type="hidden" value="{{ $item->id }}" name="mapel_id[]"> --}}
+                                                    @else
+                                                        <span class="badge badge-warning">Sudah generate nilai</span>
+                                                    @endif
                                                 </td>
-                                                <td>
-                                                    <input type="number" name="rata_uh[]" class="form-control" required>
+                                                <td class="text-center">
+                                                    @if ($rataUh == false || count($nilais) <= 0)
+                                                        <input type="number" name="rata_uh[]" class="form-control" required>
+                                                        {{-- <input type="hidden" value="{{ $item->id }}" name="mapel_id[]"> --}}
+                                                    @else
+                                                        <span class="badge badge-warning">Sudah generate nilai</span>
+                                                    @endif
                                                 </td>
-                                                <td>
-                                                    <input type="number" name="uts[]" class="form-control" required>
+                                                <td class="text-center">
+                                                    @if ($uts == false || count($nilais) <= 0)
+                                                        <input type="number" name="uts[]" class="form-control" required>
+                                                        {{-- <input type="hidden" value="{{ $item->id }}" name="mapel_id[]"> --}}
+                                                    @else
+                                                        <span class="badge badge-warning">Sudah generate nilai</span>
+                                                    @endif
                                                 </td>
-                                                <td>
-                                                    <input type="number" name="uas[]" class="form-control" required>
+                                                <td class="text-center">
+                                                    @if ($uas == false || count($nilais) <= 0)
+                                                        <input type="number" name="uas[]" class="form-control" required>
+                                                        {{-- <input type="hidden" value="{{ $item->id }}" name="mapel_id[]"> --}}
+                                                    @else
+                                                        <span class="badge badge-warning">Sudah generate nilai</span>
+                                                    @endif
                                                 </td>
+
                                                 <input type="hidden" value="{{ $siswas->kelas_id }}" name="kelas_id">
                                                 <input type="hidden" value="{{ $siswas->nis }}" name="nis">
+                                                <input type="hidden" value="{{ $item->id }}" name="mapel_id[]">
                                             </tr>
                                         @endforeach
                                     </tbody>
+
                                     <tfoot>
 
                                     </tfoot>

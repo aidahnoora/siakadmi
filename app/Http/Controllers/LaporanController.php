@@ -31,9 +31,11 @@ class LaporanController extends Controller
                 $query->where('kelas_id', $kelas_id);
                 }
             );
+        } else {
+            $siswas->whereHas('kelas');
         }
 
-        $siswas = $siswas->orderBy('nama_siswa', 'ASC')->get();
+        $siswas = $siswas->orderBy('kelas_id', 'ASC')->get();
 
         return view('pages.laporan.siswa', compact('kelass', 'siswas'));
     }
@@ -74,6 +76,8 @@ class LaporanController extends Controller
                 $query->where('siswa_nis', $siswa_nis);
                 }
             );
+        } else {
+            $nilais->whereHas('siswa');
         }
 
         if($request->mapel_id) {
@@ -82,6 +86,18 @@ class LaporanController extends Controller
                 $query->where('mapel_id', $mapel_id);
                 }
             );
+        } else {
+            $nilais->whereHas('mapel');
+        }
+
+        if($request->semester) {
+            $semester = $request->semester;
+            $nilais->whereHas('mapel', function ($query) use ($semester) {
+                $query->where('semester', $semester);
+                }
+            );
+        } else {
+            $nilais->whereHas('mapel');
         }
 
         // dd($nilais);

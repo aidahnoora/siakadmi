@@ -9,15 +9,10 @@ use App\Models\Mapel;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NilaiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
@@ -26,26 +21,27 @@ class NilaiController extends Controller
         return view('pages.nilai.index', compact(['kelass', 'siswas']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($nis)
     {
         $siswas = Siswa::where('nis', $nis)->find($nis);
-        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_nis', $nis)->get();
-        $mapels = Mapel::all();
+        $mapels = DB::table('mapel')
+            ->join('jadwal', 'mapel.id', 'jadwal.mapel_id')
+            ->join('kelas', 'kelas.id', 'jadwal.kelas_id')
+            ->where('kelas.id', $siswas->kelas_id)
+            ->groupBy('mapel.id')
+            ->select(
+                'mapel.nama_mapel',
+                'mapel.id', DB::raw('MAX(jadwal.id) as jadwal_id'),
+                )
+            ->get();
 
-        return view('pages.nilai.create', compact(['siswas', 'nilais', 'mapels']));
+            // dd($mapels);
+
+        $nilais = Nilai::where('siswa_nis', $nis)->get();
+
+        return view('pages.nilai.create', compact(['siswas', 'mapels', 'nilais']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -61,6 +57,7 @@ class NilaiController extends Controller
                     'uts' => $request->uts[$key],
                     'uas' => $request->uas[$key],
                     'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             }
 
@@ -70,12 +67,6 @@ class NilaiController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $kelass = Kelas::findorfail($id);
@@ -86,21 +77,38 @@ class NilaiController extends Controller
         return view('pages.nilai.show', compact(['siswas', 'kelass', 'mapels']));
     }
 
-    public function nilai($nis)
+    public function nilaiSemester1($nis)
     {
         $siswas = Siswa::where('nis', $nis)->first();
-        $nilais = Nilai::orderBy('created_at', 'ASC')->where('siswa_nis', $nis)->get();
+
+        $nilaiSemester1 = DB::table('nilai')
+            ->join('mapel', 'nilai.mapel_id', 'mapel.id')
+            ->where('siswa_nis', $nis)
+            ->where('mapel.semester', 1)
+            ->orderBy('nilai.created_at', 'ASC')
+            ->get();
+
         $mapels = Mapel::all();
 
-        return view('pages.nilai.detail_nilai', compact(['nilais', 'siswas', 'mapels']));
+        return view('pages.nilai.detail_nilai1', compact(['nilaiSemester1', 'siswas', 'mapels']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function nilaiSemester2($nis)
+    {
+        $siswas = Siswa::where('nis', $nis)->first();
+
+        $nilaiSemester2 = DB::table('nilai')
+            ->join('mapel', 'nilai.mapel_id', 'mapel.id')
+            ->where('siswa_nis', $nis)
+            ->where('mapel.semester', 2)
+            ->orderBy('nilai.created_at', 'ASC')
+            ->get();
+
+        $mapels = Mapel::all();
+
+        return view('pages.nilai.detail_nilai2', compact(['nilaiSemester2', 'siswas', 'mapels']));
+    }
+
     public function edit($id)
     {
         $nilais = Nilai::findorfail($id);
@@ -110,51 +118,41 @@ class NilaiController extends Controller
         return view('pages.nilai.edit', compact(['nilais', 'siswas', 'mapels']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'tugas' => 'required',
-            'rata_uh' => 'required',
-            'uts' => 'required',
-            'uas' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'tugas' => 'required',
+                'rata_uh' => 'required',
+                'uts' => 'required',
+                'uas' => 'required'
+            ]);
 
-        $post = Nilai::findorfail($id);
+            $post = Nilai::findorfail($id);
 
-        $post_data = [
-            'tugas' => $request->tugas,
-            'rata_uh' => $request->rata_uh,
-            'uts' => $request->uts,
-            'uas' => $request->uas,
-        ];
+            $post_data = [
+                'tugas' => $request->tugas,
+                'rata_uh' => $request->rata_uh,
+                'uts' => $request->uts,
+                'uas' => $request->uas,
+            ];
 
-        $post->update($post_data);
+            $post->update($post_data);
 
-        if ($post) {
             return redirect('nilai')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('nilai')->with('error', 'Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $nilais = Nilai::find($id);
         $nilais->delete();
 
-        return redirect()->back()->with('success', 'Data berhasil dihapus!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+        ]);
     }
 }

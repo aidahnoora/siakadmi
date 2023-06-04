@@ -3,9 +3,9 @@
 @section('title', 'Absensi Siswa')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.cs') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.cs') }}">
 @endsection
 
 @section('breadcrumbs')
@@ -39,7 +39,7 @@
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
                                 <a href="{{ route('absensi') }}" class="btn btn-success">
-                                    Kembali
+                                    <i class="fas fa-arrow-left"></i> Kembali
                                 </a>
                             </div>
                         </div>
@@ -56,32 +56,63 @@
                                             <th>Keterangan</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         @foreach ($siswas as $item)
-                                        <tr>
-                                            <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
-                                            <td>{{ $item->nomor_induk }}</td>
-                                            <td>
-                                                {{ $item->nis }}
-                                                <input type="hidden" name="siswa_nis[]" value="{{ $item->nis }}">
-                                                <input type="hidden" name="kelas_id[]" value="{{ $item->kelas_id }}">
-                                            </td>
-                                            <td>{{ $item->nama_siswa }}</td>
-                                            <td class="text-center">
-                                                <input type="checkbox" value="Hadir" id="Hadir" name="keterangan[]">
-                                                <label for="Hadir" style="margin-right: 10px">Hadir</label>
+                                            @php
+                                                $tgl = false;
+                                            @endphp
 
-                                                <input type="checkbox" value="Sakit" id="Sakit" name="keterangan[]">
-                                                <label for="Sakit" style="margin-right: 10px">Sakit</label>
+                                            @forelse ($absensis as $absen)
+                                                @php
+                                                    if ($item->nis == $absen->siswa_nis) {
+                                                        $tgl = true;
+                                                        break;
+                                                    }
+                                                @endphp
+                                            @empty
+                                                @php
+                                                    $tgl = $item->nis == $item->siswa_nis;
+                                                @endphp
+                                            @endforelse
 
-                                                <input type="checkbox" value="Izin" id="Izin" name="keterangan[]">
-                                                <label for="Izin" style="margin-right: 10px">Izin</label>
+                                            <tr>
+                                                <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
+                                                <td>{{ $item->nomor_induk }}</td>
+                                                <td>
+                                                    {{ $item->nis }}
+                                                </td>
+                                                <td>{{ $item->nama_siswa }}</td>
+                                                <td class="text-center">
+                                                    @if ($tgl == false)
+                                                        {{-- hidden id --}}
+                                                        <input type="hidden" name="siswa_nis[]"
+                                                            value="{{ $item->nis }}">
+                                                        <input type="hidden" name="kelas_id[]"
+                                                            value="{{ $item->kelas_id }}">
 
-                                                <input type="checkbox" value="Alfa" id="Alfa" name="keterangan[]">
-                                                <label for="Alfa">Alfa</label>
-                                            </td>
-                                        </tr>
+                                                        <input type="checkbox" value="Hadir" id="Hadir"
+                                                            name="keterangan[]">
+                                                        <label for="Hadir" style="margin-right: 10px">Hadir</label>
+
+                                                        <input type="checkbox" value="Sakit" id="Sakit"
+                                                            name="keterangan[]">
+                                                        <label for="Sakit" style="margin-right: 10px">Sakit</label>
+
+                                                        <input type="checkbox" value="Izin" id="Izin"
+                                                            name="keterangan[]">
+                                                        <label for="Izin" style="margin-right: 10px">Izin</label>
+
+                                                        <input type="checkbox" value="Alfa" id="Alfa"
+                                                            name="keterangan[]">
+                                                        <label for="Alfa">Alfa</label>
+                                                    @else
+                                                        <span class="badge badge-warning">Sudah generate presensi</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endforeach
+
                                     </tbody>
                                 </table>
                                 <div style="margin-top: 20px">
@@ -89,6 +120,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

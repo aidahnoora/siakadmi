@@ -7,14 +7,11 @@ use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\Hari;
 use App\Models\Mapel;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
@@ -24,67 +21,117 @@ class JadwalController extends Controller
         return view('pages.jadwal.index', compact(['kelass', 'haris', 'mapels']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'hari_id' => 'required',
-            'kelas_id' => 'required',
-            'mapel_id' => 'required',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-        ]);
+        DB::beginTransaction();
 
-        $jadwal = Jadwal::create([
-            'hari_id'=> $request->hari_id,
-            'kelas_id'=> $request->kelas_id,
-            'mapel_id'=> $request->mapel_id,
-            'jam_mulai'=> $request->jam_mulai,
-            'jam_selesai'=> $request->jam_selesai,
-        ]);
+        try {
+            $request->validate([
+                'hari_id' => 'required',
+                'kelas_id' => 'required',
+                'mapel_id' => 'required',
+                'jam_mulai' => 'required',
+                'jam_selesai' => 'required',
+            ]);
 
-        if ($jadwal) {
-            return redirect('jadwal')->with('success', 'Data berhasil disimpan!');
-        } else {
-            return redirect('jadwal')->with('error', 'Data gagal disimpan!');
+            $hari_id = $request->hari_id;
+            $kelas_id = $request->kelas_id;
+            $mapel_id = $request->mapel_id;
+            $jam_mulai = $request->jam_mulai;
+            $jam_selesai = $request->jam_selesai;
+
+            $jadwals = Jadwal::where('hari_id', $hari_id)
+                ->where('kelas_id', $kelas_id)
+                ->where('jam_mulai', $jam_mulai)
+                ->where('jam_selesai', $jam_selesai)
+                ->first();
+
+            if ($jadwals == true) {
+                return redirect()->back()->with('error', 'Jadwal mapel ini di hari ini/jam ini/di kelas ini sudah ada!');
+            }
+
+            $jadwals = Jadwal::where('hari_id', $hari_id)
+                ->where('mapel_id', $mapel_id)
+                ->where('kelas_id', $kelas_id)
+                ->first();
+
+            if ($jadwals == true) {
+                return redirect()->back()->with('error', 'Jadwal mapel ini di hari ini sudah ada!');
+            }
+
+            $jadwal = Jadwal::create([
+                'hari_id' => $request->hari_id,
+                'kelas_id' => $request->kelas_id,
+                'mapel_id' => $request->mapel_id,
+                'jam_mulai' => $request->jam_mulai,
+                'jam_selesai' => $request->jam_selesai,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Data berhasil disimpan!');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function showSemester1($id)
     {
         $kelass = Kelas::findorfail($id);
-        $jadwals = Jadwal::orderBy('hari_id', 'ASC')->orderBy('jam_mulai', 'ASC')->where('kelas_id', $id)->get();
+        $jadwals = DB::table('jadwal')
+            ->join('mapel', 'jadwal.mapel_id', 'mapel.id')
+            ->join('hari', 'jadwal.hari_id', 'hari.id')
+            ->where('jadwal.kelas_id', $id)
+            ->where('mapel.semester', 1)
+            ->select(
+                'jadwal.id',
+                'hari.nama_hari',
+                'mapel.nama_mapel',
+                'jadwal.jam_mulai',
+                'jadwal.jam_selesai',
+            )
+            ->orderBy('hari.id')->orderBy('jadwal.jam_mulai')
+            ->get();
 
-        return view('pages.jadwal.show', compact(['kelass', 'jadwals']));
+
+        $haris = Hari::all();
+        $mapels = Mapel::orderBy('nama_mapel', 'ASC')
+            ->where('semester', 1)
+            ->get();
+
+        // dd($jadwals);
+
+        return view('pages.jadwal.show1', compact(['kelass', 'jadwals', 'haris', 'mapels']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function showSemester2($id)
+    {
+        $kelass = Kelas::findorfail($id);
+        $jadwals = DB::table('jadwal')
+            ->join('hari', 'jadwal.hari_id', 'hari.id')
+            ->join('mapel', 'jadwal.mapel_id', 'mapel.id')
+            ->where('jadwal.kelas_id', $id)
+            ->where('mapel.semester', 2)
+            ->select(
+                'jadwal.id',
+                'hari.nama_hari',
+                'mapel.nama_mapel',
+                'jadwal.jam_mulai',
+                'jadwal.jam_selesai',
+            )
+            ->orderBy('hari.id')->orderBy('jadwal.jam_mulai')
+            ->get();
+
+        $haris = Hari::all();
+        $mapels = Mapel::orderBy('nama_mapel', 'ASC')
+            ->where('semester', 2)
+            ->get();
+
+        return view('pages.jadwal.show2', compact(['kelass', 'jadwals', 'haris', 'mapels']));
+    }
+
     public function edit($id)
     {
         $jadwals = Jadwal::findorfail($id);
@@ -96,53 +143,43 @@ class JadwalController extends Controller
         return view('pages.jadwal.edit', compact(['jadwals', 'kelass', 'haris', 'mapels']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'hari_id' => 'required',
-            'kelas_id' => 'required',
-            'mapel_id' => 'required',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-        ]);
+        try {
+            $this->validate($request, [
+                'hari_id' => 'required',
+                'kelas_id' => 'required',
+                'mapel_id' => 'required',
+                'jam_mulai' => 'required',
+                'jam_selesai' => 'required',
+            ]);
 
-        $post = Jadwal::findorfail($id);
+            $post = Jadwal::findorfail($id);
 
-        $post_data = [
-            'hari_id'=> $request->hari_id,
-            'kelas_id'=> $request->kelas_id,
-            'mapel_id'=> $request->mapel_id,
-            'jam_mulai'=> $request->jam_mulai,
-            'jam_selesai'=> $request->jam_selesai,
-        ];
+            $post_data = [
+                'hari_id' => $request->hari_id,
+                'kelas_id' => $request->kelas_id,
+                'mapel_id' => $request->mapel_id,
+                'jam_mulai' => $request->jam_mulai,
+                'jam_selesai' => $request->jam_selesai,
+            ];
 
-        $post->update($post_data);
+            $post->update($post_data);
 
-        if ($post) {
             return redirect('jadwal')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('jadwal')->with('error', 'Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $jadwals = Jadwal::find($id);
         $jadwals->delete();
 
-        return redirect('jadwal')->with('success', 'Data berhasil dihapus!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+        ]);
     }
 }

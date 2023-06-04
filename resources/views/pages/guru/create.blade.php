@@ -36,7 +36,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/guru" class="btn btn-success">Kembali</a>
+                                <a href="/guru" class="btn btn-success">
+                                    <i class="fas fa-arrow-left"></i> Kembali
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">

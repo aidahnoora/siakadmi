@@ -7,14 +7,10 @@ use App\Models\Absensi;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use Carbon\Carbon;
+use Exception;
 
 class AbsensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
@@ -23,61 +19,47 @@ class AbsensiController extends Controller
         return view('pages.absensi.index', compact(['kelass', 'siswas']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
-        $kelass = Kelas::findorfail($id);
+        $kelass = Kelas::findOrFail($id);
         $siswas = Siswa::orderBy('nis', 'ASC')->where('kelas_id', $id)->get();
 
-        return view('pages.absensi.create', compact(['kelass', 'siswas']));
+        $now = Carbon::now();
+        $tanggalSekarang = Carbon::createFromFormat('Y-m-d H:i:s', $now)->format('Y-m-d');
+
+        $absensis = Absensi::where('kelas_id', $id)
+            ->where('tanggal', $tanggalSekarang)
+            ->get();
+
+        // dd($absensis);
+
+        return view('pages.absensi.create', compact(['kelass', 'siswas', 'absensis']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'siswa_nis' => 'required',
-        //     'kelas_id' => 'required',
-        //     'tanggal' => 'required',
-        //     'keterangan' => 'required'
-        // ]);
+        try {
+            $siswa_nis = $request->siswa_nis;
+            $now = Carbon::now();
+            $tanggalSekarang = Carbon::createFromFormat('Y-m-d H:i:s', $now)->format('Y-m-d');
 
-        $siswa_nis = $request->siswa_nis;
-        $now = Carbon::now('utc')->toDateTimeString();
+            foreach ($siswa_nis as $key => $value) {
+                $data = Absensi::insert([
+                    'siswa_nis' => $value,
+                    'kelas_id' => $request->kelas_id[$key],
+                    'tanggal' => $tanggalSekarang,
+                    'keterangan' => $request->keterangan[$key],
+                    'created_at' => $now,
+                    'updated_at' => $now
+                ]);
+            }
 
-        foreach ($siswa_nis as $key => $value) {
-            $data = Absensi::insert([
-                'siswa_nis' => $value,
-                'kelas_id' => $request->kelas_id[$key],
-                'tanggal' => $now,
-                'keterangan' => $request->keterangan[$key],
-                'created_at' => $now,
-                'updated_at' => $now
-            ]);
-        }
-
-        if ($data) {
-            return redirect('absensi')->with(['success' => 'Data berhasil disimpan!']);
-        } else {
-            return redirect('absensi')->with(['error' => 'Data gagal disimpan!']);
+            return redirect('absensi')->with('success', 'Data berhasil disimpan!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request, $id)
     {
         $kelass = Kelas::findorfail($id);
@@ -91,19 +73,12 @@ class AbsensiController extends Controller
 
     public function absensi($nis)
     {
-        $siswas = Siswa::where('nis', $nis)->first();
+        $siswas = Siswa::where('nis', $nis)->find($nis);
         $absensis = Absensi::orderBy('tanggal', 'ASC')->where('siswa_nis', $nis)->get();
-        // $siswas = Siswa::all();
 
         return view('pages.absensi.detail_absensi', compact(['siswas', 'absensis']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $absensis = Absensi::findorfail($id);
@@ -112,45 +87,35 @@ class AbsensiController extends Controller
         return view('pages.absensi.edit', compact(['absensis', 'siswas']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'keterangan' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'keterangan' => 'required'
+            ]);
 
-        $post = Absensi::findorfail($id);
+            $post = Absensi::findorfail($id);
 
-        $post_data = [
-            'keterangan' => $request->keterangan,
-        ];
+            $post_data = [
+                'keterangan' => $request->keterangan,
+            ];
 
-        $post->update($post_data);
+            $post->update($post_data);
 
-        if ($post) {
             return redirect('absensi')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('absensi')->with('error','Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Data gagal diperbarui!');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $absensis = Absensi::find($id);
+        $absensis = Absensi::findOrFail($id);
         $absensis->delete();
 
-        return redirect()->back()->with('success', 'Data berhasil dihapus!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+        ]);
     }
 }

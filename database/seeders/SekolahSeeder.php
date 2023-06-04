@@ -16,14 +16,14 @@ class SekolahSeeder extends Seeder
     {
         DB::table('identitas_sekolah')->insert([
             'id' => 6,
-            'npsn' => 1212,
+            'npsn' => 111235010091,
             'nama_sekolah' => 'MI Muhammadiyah Nglaran 1',
-            'alamat' => 'Tulakan',
+            'alamat' => 'Sukorejo, Nglaran, Tulakan',
             'kabupaten' => 'Pacitan',
-            'kode_pos' => '1212',
+            'kode_pos' => '63571',
             'logo' => 'Ayq95kSAO8RGLCHP9RExENi8DLPF6ogXPfVA5b2V.png',
-            'nama_kepsek' => 'Lesta',
-            'no_telp' => '03584-121-345',
+            'nama_kepsek' => 'Bambang Sutoyo, S.Pd.I',
+            'no_telp' => '087759630188',
         ]);
     }
 }

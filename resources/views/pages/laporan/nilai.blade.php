@@ -45,24 +45,37 @@
                                     <div class="row">
                                         <div class="container-fluid">
                                             <div class="form-group row">
-                                                <label for="" class="col-form-label col-sm-2">Siswa</label>
                                                 <div class="col-sm-3">
+                                                    <label for="" class="col-form-label">Siswa</label>
                                                     <select name="siswa_nis" id="siswa_nis" class="form-control">
+                                                        <option value="" selected>Semua Siswa</option>
                                                         @foreach ($siswas as $item)
                                                             <option value="{{ $item->nis }}" {{ request('siswa_nis')==$item->nis?'selected':'' }}>{{ $item->nama_siswa }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <label for="" class="col-form-label col-sm-2">Mapel</label>
                                                 <div class="col-sm-3">
+                                                    <label for="" class="col-form-label">Mapel</label>
                                                     <select name="mapel_id" id="mapel_id" class="form-control">
+                                                        <option value="" selected>Semua Mata Pelajaran</option>
                                                         @foreach ($mapels as $item)
                                                             <option value="{{ $item->id }}" {{ request('mapel_id')==$item->id?'selected':'' }}>{{ $item->nama_mapel }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-sm-2">
-                                                    <button type="submit" class="btn" name="search" title="Search"><img src="https://img.icons8.com/android/search"></button>
+                                                <div class="col-sm-3">
+                                                    <label for="" class="col-form-label">Semester</label>
+                                                    <select name="semester" id="semester" class="form-control">
+                                                        <option value="" selected>Semua Semester</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label for="" class="col-form-label">Filter</label>
+                                                    <button type="submit" class="btn btn-icon btn-primary form-control" name="search" title="Search" width="20">
+                                                        <i class="fas fa-search"></i> Cari
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

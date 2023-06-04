@@ -36,7 +36,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/guru" class="btn btn-success">Kembali</a>
+                                <a href="/guru" class="btn btn-success">
+                                    <i class="fas fa-arrow-left"></i> Kembali
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -50,7 +52,7 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('guru/update', $gurus->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('guru/update', $gurus->nip) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">

@@ -57,7 +57,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($absensis as $item)
-                                        <tr>
+                                        <tr id="index_{{ $item->id }}">
                                             <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
                                             <td>{!! date('l, d F Y', strtotime($item->tanggal)) !!}</td>
                                             <td>{{ $item->keterangan }}</td>
@@ -66,7 +66,10 @@
                                                     <i class="far fa-edit"></i>
                                                 </a>
                                                 @if (Auth::user()->role == 'admin')
-                                                <a href="{{ route('absensi/delete', $item->id) }}" class="btn btn-icon btn-sm btn-danger">
+                                                {{-- <a href="{{ route('absensi/delete', $item->id) }}" class="btn btn-icon btn-sm btn-danger">
+                                                    <i class="fas fa-times"></i>
+                                                </a> --}}
+                                                <a href="javascript:void(0)" class="btn btn-icon btn-sm btn-danger" id="delete-confirm" data-id="{{ $item->id }}">
                                                     <i class="fas fa-times"></i>
                                                 </a>
                                                 @endif
@@ -104,6 +107,48 @@
     <script src="{{ asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('AdminLTE/plugins/toastr/toastr.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $('body').on('click', '#delete-confirm', function() {
+            let post_id = $(this).data('id');
+            let token = $("meta[name='csrf-token']").attr("content");
+
+            swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Data tidak dapat dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('oke');
+
+                    $.ajax({
+                        url: `/absensi/delete/${post_id}`,
+                        type: "DELETE",
+                        cache: false,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                type: 'success',
+                                icon: 'success',
+                                title: `${response.message}`,
+                                showConfirmButton: true,
+                                timer: 3000
+                            });
+
+                            $(`#index_${post_id}`).remove();
+                        }
+                    });
+                }
+            })
+        });
+    </script>
 
     <script>
         $(function() {

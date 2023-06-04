@@ -39,7 +39,9 @@
                         <div class="card-header">
                             <h2 class="card-title">Data Siswa</h2>
                             <div class="card-tools">
-                                <a href="/siswa/add" class="btn btn-primary">Tambah Data</a>
+                                <a href="/siswa/add" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
                         <div class="card-body table-responsive">

@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Guru;
+use Exception;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $kelass = Kelas::with('guru')->get();
@@ -20,11 +16,6 @@ class KelasController extends Controller
         return view('pages.kelas.index', compact('kelass'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $gurus = Guru::get();
@@ -32,44 +23,25 @@ class KelasController extends Controller
         return view('pages.kelas.create', compact('gurus'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kelas' => 'required',
-            'guru_id',
-        ]);
+        try {
+            $request->validate([
+                'nama_kelas' => 'required',
+                'guru_nip',
+            ]);
 
-        Kelas::create([
-            'nama_kelas' => $request->nama_kelas,
-            'guru_id' => $request->guru_id,
-        ]);
+            Kelas::create([
+                'nama_kelas' => $request->nama_kelas,
+                'guru_nip' => $request->guru_nip,
+            ]);
 
-        return redirect('kelas');
+            return redirect('kelas')->with('success', 'Data berhasil disimpan!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $kelass = Kelas::findorfail($id);
@@ -78,47 +50,37 @@ class KelasController extends Controller
         return view('pages.kelas.edit', compact(['kelass', 'gurus']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'nama_kelas' => 'required',
-            'guru_id',
-        ]);
+        try {
+            $this->validate($request, [
+                'nama_kelas' => 'required',
+                'guru_nip',
+            ]);
 
-        $post = Kelas::findorfail($id);
+            $post = Kelas::findorfail($id);
 
-        $post_data = [
-            'nama_kelas' => $request->nama_kelas,
-            'guru_id' => $request->guru_id
-        ];
+            $post_data = [
+                'nama_kelas' => $request->nama_kelas,
+                'guru_nip' => $request->guru_nip
+            ];
 
-        $post->update($post_data);
+            $post->update($post_data);
 
-        if ($post) {
             return redirect('kelas')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('kelas')->with('error', 'Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $kelass = Kelas::find($id);
         $kelass->delete();
 
-        return redirect('kelas')->with('success', 'Data berhasil dihapus!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+        ]);
     }
 }

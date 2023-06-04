@@ -16,7 +16,6 @@ class CreateMapelTable extends Migration
         Schema::create('mapel', function (Blueprint $table) {
             $table->id();
             $table->string('nama_mapel');
-            $table->string('tahun_mapel');
             $table->string('semester');
             $table->timestamps();
         });

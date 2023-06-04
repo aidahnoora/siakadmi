@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -57,28 +58,28 @@ class HomeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required',
-            'password',
-            'role' => 'required'
-        ]);
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required',
+                'password',
+                'role' => 'required'
+            ]);
 
-        $post = User::findorfail($id);
+            $post = User::findorfail($id);
 
-        $post_data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'role' => $request->role,
-        ];
+            $post_data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'role' => $request->role,
+            ];
 
-        $post->update($post_data);
+            $post->update($post_data);
 
-        if ($post) {
             return redirect('profil')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('profil')->with('error', 'Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

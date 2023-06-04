@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Guru;
 use App\Models\Mapel;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $gurus = Guru::orderBy('created_at', 'DESC')->get();
@@ -21,11 +17,6 @@ class GuruController extends Controller
         return view('pages.guru.index', compact('gurus'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $mapels = Mapel::get();
@@ -33,16 +24,10 @@ class GuruController extends Controller
         return view('pages.guru.create', compact('mapels'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'nip',
+            'nip' => 'required|unique:guru',
             'nama_guru' => 'required',
             'pangkat_golongan',
             'mapel_id',
@@ -81,112 +66,85 @@ class GuruController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit($nip)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $gurus = Guru::findorfail($id);
+        $gurus = Guru::findorfail($nip);
         $mapels = Mapel::get();
 
         return view('pages.guru.edit', compact(['gurus', 'mapels']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, $nip)
     {
-        $request->validate([
-            'nip',
-            'nama_guru' => 'required',
-            'pangkat_golongan',
-            'mapel_id',
-            'tmpt_lahir' => 'required',
-            'tgl_lahir' => 'required',
-            'jns_kelamin' => 'required',
-            'no_telp' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'email' => 'required',
-            'agama' => 'required',
-            'alamat' => 'required',
-        ]);
-
-        $guru = Guru::findorfail($id);
-
-        if ($request->file('foto') == "") {
-            $guru->update([
-                'nip' => $request->nip,
-                'nama_guru' => $request->nama_guru,
-                'pangkat_golongan' => $request->pangkat_golongan,
-                'mapel_id' => $request->mapel_id,
-                'tmpt_lahir' => $request->tmpt_lahir,
-                'tgl_lahir' => $request->tgl_lahir,
-                'jns_kelamin' => $request->jns_kelamin,
-                'no_telp' => $request->no_telp,
-                'email' => $request->email,
-                'agama' => $request->agama,
-                'alamat' => $request->alamat,
+        try {
+            $request->validate([
+                'nip',
+                'nama_guru' => 'required',
+                'pangkat_golongan',
+                'mapel_id',
+                'tmpt_lahir' => 'required',
+                'tgl_lahir' => 'required',
+                'jns_kelamin' => 'required',
+                'no_telp' => 'required',
+                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'email' => 'required',
+                'agama' => 'required',
+                'alamat' => 'required',
             ]);
-        }
-        else {
-            Storage::disk('local')->delete('public/foto/'.$guru->foto);
 
-            $foto = $request->file('foto');
-            $foto->storeAs('public/foto', $foto->hashName());
+            $guru = Guru::findorfail($nip);
 
-            $guru->update([
-                'nip' => $request->nip,
-                'nama_guru' => $request->nama_guru,
-                'pangkat_golongan' => $request->pangkat_golongan,
-                'mapel_id' => $request->mapel_id,
-                'tmpt_lahir' => $request->tmpt_lahir,
-                'tgl_lahir' => $request->tgl_lahir,
-                'jns_kelamin' => $request->jns_kelamin,
-                'no_telp' => $request->no_telp,
-                'foto' => $foto->hashName(),
-                'email' => $request->email,
-                'agama' => $request->agama,
-                'alamat' => $request->alamat,
-            ]);
-        }
+            if ($request->file('foto') == "") {
+                $guru->update([
+                    'nip' => $request->nip,
+                    'nama_guru' => $request->nama_guru,
+                    'pangkat_golongan' => $request->pangkat_golongan,
+                    'mapel_id' => $request->mapel_id,
+                    'tmpt_lahir' => $request->tmpt_lahir,
+                    'tgl_lahir' => $request->tgl_lahir,
+                    'jns_kelamin' => $request->jns_kelamin,
+                    'no_telp' => $request->no_telp,
+                    'email' => $request->email,
+                    'agama' => $request->agama,
+                    'alamat' => $request->alamat,
+                ]);
+            }
+            else {
+                Storage::disk('local')->delete('public/foto/'.$guru->foto);
 
-        if ($guru) {
+                $foto = $request->file('foto');
+                $foto->storeAs('public/foto', $foto->hashName());
+
+                $guru->update([
+                    'nip' => $request->nip,
+                    'nama_guru' => $request->nama_guru,
+                    'pangkat_golongan' => $request->pangkat_golongan,
+                    'mapel_id' => $request->mapel_id,
+                    'tmpt_lahir' => $request->tmpt_lahir,
+                    'tgl_lahir' => $request->tgl_lahir,
+                    'jns_kelamin' => $request->jns_kelamin,
+                    'no_telp' => $request->no_telp,
+                    'foto' => $foto->hashName(),
+                    'email' => $request->email,
+                    'agama' => $request->agama,
+                    'alamat' => $request->alamat,
+                ]);
+            }
+
             return redirect('guru')->with('success', 'Data berhasil diperbarui!');
-        } else {
-            return redirect('guru')->with('error', 'Data gagal diperbarui!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($nip)
     {
-        $gurus = Guru::find($id);
+        $gurus = Guru::findOrFail($nip);
         $gurus->delete();
 
-        return redirect('guru')->with('success', 'Data berhasil dihapus!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus!',
+        ]);
     }
 }

@@ -36,7 +36,9 @@
                             <div class="card-tools">
                                 <!-- Buttons, labels, and many other things can be placed here! -->
                                 <!-- Here is a label for example -->
-                                <a href="/mapel" class="btn btn-success">Kembali</a>
+                                <a href="/mapel" class="btn btn-success">
+                                    <i class="fas fa-arrow-left"></i> Kembali
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -55,10 +57,6 @@
                                 <div class="form-group">
                                     <label for="nama_kelas">Nama Mata Pelajaran</label>
                                     <input type="text" name="nama_mapel" class="form-control" autofocus required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tahun_mapel">Tahun</label>
-                                    <input type="text" name="tahun_mapel" class="form-control" autofocus required>
                                 </div>
                                 <div class="form-group">
                                     <label for="semester">Semester</label>

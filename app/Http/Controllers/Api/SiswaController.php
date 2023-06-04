@@ -32,6 +32,7 @@ class SiswaController extends Controller
     public function get_jadwal()
     {
         $jadwals = Jadwal::where('kelas_id', Auth::user()->siswa->kelas_id)
+            // ->where('hari_id', 1)
             ->orderBy('hari_id')
             ->get();
 
