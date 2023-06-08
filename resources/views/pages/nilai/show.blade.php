@@ -71,10 +71,6 @@
                                                     class="btn btn-icon btn-sm btn-primary">
                                                     <i class="fas fa-eye"></i> Semester 2
                                                 </a>
-                                                <a href="{{ route('nilai/add', $item->nis) }}"
-                                                    class="btn btn-icon btn-sm btn-success">
-                                                    <i class="fas fa-plus"></i> Tambah
-                                                </a>
                                                 {{-- <a href="{{ route('nilai/edit', $item->id) }}" class="btn btn-icon btn-sm btn-warning">
                                                 <i class="far fa-edit"></i>
                                             </a>

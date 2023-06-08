@@ -74,7 +74,7 @@
                                         <th>Kelas</th>
                                         <th>Jenis Kelamin</th>
                                         <th>TTL</th>
-                                        <th>Foto</th>
+                                        {{-- <th>Foto</th> --}}
                                         <th>Nama Ortu</th>
                                         <th>No. Telp</th>
                                         <th>Pekerjaan</th>
@@ -93,7 +93,7 @@
                                         <td>{{ $item->kelas->nama_kelas }}</td>
                                         <td>{{ $item->jns_kelamin }}</td>
                                         <td>{{ $item->tmpt_lahir }}, {{ $item->tgl_lahir }}</td>
-                                        <td><img src="{{ Storage::url('public/foto/').$item->foto }}" width="50" height="auto"></td>
+                                        {{-- <td><img src="{{ Storage::url('public/foto/').$item->foto }}" width="50" height="auto"></td> --}}
                                         <td>{{ $item->nama_ortu }}</td>
                                         <td>{{ $item->no_telp }}</td>
                                         <td>{{ $item->pekerjaan }}</td>

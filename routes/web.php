@@ -100,7 +100,8 @@ Route::middleware(['auth', 'checkrole:admin,guru'])->group(function (){
     Route::delete('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('jadwal/delete');
 
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
-    Route::get('/nilai/add/{nis}', [NilaiController::class, 'create'])->name('nilai/add');
+    Route::get('/nilai/add/semester1/{nis}', [NilaiController::class, 'createSemester1'])->name('nilai/add/semester1');
+    Route::get('/nilai/add/semester2/{nis}', [NilaiController::class, 'createSemester2'])->name('nilai/add/semester2');
     Route::post('/nilai/save', [NilaiController::class, 'store'])->name('nilai/save');
     Route::get('/nilai/siswa/{id}', [NilaiController::class, 'show'])->name('nilai/siswa');
     Route::get('/nilai/siswa/mapel/semester1/{nis}', [NilaiController::class, 'nilaiSemester1'])->name('nilai/siswa/mapel/semester1');

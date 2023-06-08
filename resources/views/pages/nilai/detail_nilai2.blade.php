@@ -70,6 +70,10 @@
                                 </table>
                             </h2>
                             <div class="card-tools">
+                                <a href="{{ route('nilai/add/semester2', $siswas->nis) }}"
+                                    class="btn btn-icon btn-primary">
+                                    <i class="fas fa-plus"></i> Tambah
+                                </a>
                                 <a href="{{ route('nilai') }}" class="btn btn-success">
                                     Kembali
                                 </a>

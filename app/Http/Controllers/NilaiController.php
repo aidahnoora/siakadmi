@@ -21,13 +21,14 @@ class NilaiController extends Controller
         return view('pages.nilai.index', compact(['kelass', 'siswas']));
     }
 
-    public function create($nis)
+    public function createSemester1($nis)
     {
         $siswas = Siswa::where('nis', $nis)->find($nis);
         $mapels = DB::table('mapel')
             ->join('jadwal', 'mapel.id', 'jadwal.mapel_id')
             ->join('kelas', 'kelas.id', 'jadwal.kelas_id')
             ->where('kelas.id', $siswas->kelas_id)
+            ->where('mapel.semester', 1)
             ->groupBy('mapel.id')
             ->select(
                 'mapel.nama_mapel',
@@ -39,7 +40,29 @@ class NilaiController extends Controller
 
         $nilais = Nilai::where('siswa_nis', $nis)->get();
 
-        return view('pages.nilai.create', compact(['siswas', 'mapels', 'nilais']));
+        return view('pages.nilai.create1', compact(['siswas', 'mapels', 'nilais']));
+    }
+
+    public function createSemester2($nis)
+    {
+        $siswas = Siswa::where('nis', $nis)->find($nis);
+        $mapels = DB::table('mapel')
+            ->join('jadwal', 'mapel.id', 'jadwal.mapel_id')
+            ->join('kelas', 'kelas.id', 'jadwal.kelas_id')
+            ->where('kelas.id', $siswas->kelas_id)
+            ->where('mapel.semester', 2)
+            ->groupBy('mapel.id')
+            ->select(
+                'mapel.nama_mapel',
+                'mapel.id', DB::raw('MAX(jadwal.id) as jadwal_id'),
+                )
+            ->get();
+
+            // dd($mapels);
+
+        $nilais = Nilai::where('siswa_nis', $nis)->get();
+
+        return view('pages.nilai.create2', compact(['siswas', 'mapels', 'nilais']));
     }
 
     public function store(Request $request)
