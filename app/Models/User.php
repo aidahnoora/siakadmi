@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
         'siswa_nis',
+        'guru_nip'
     ];
 
     /**
@@ -47,6 +48,11 @@ class User extends Authenticatable
     public function siswa()
     {
         return $this->belongsTo(Siswa::class);
+    }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class);
     }
 
     // public function siswa($id)

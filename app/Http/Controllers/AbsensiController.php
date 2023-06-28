@@ -8,12 +8,18 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
     public function index()
     {
-        $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        if (Auth::user()->role == 'guru') {
+            $kelass = Kelas::where('guru_nip', Auth::user()->guru_nip)->orderBy('nama_kelas', 'ASC')->get();
+        } else {
+            $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        }
+
         $siswas = Siswa::orderBy('nama_siswa', 'ASC')->get();
 
         return view('pages.absensi.index', compact(['kelass', 'siswas']));

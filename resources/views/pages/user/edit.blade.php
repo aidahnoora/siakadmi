@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <select name="role" id="role" class="form-control" autofocus required>
+                                    <select name="role" id="role" class="form-control" autofocus disabled>
                                         <option value="admin" {{ $users->role == 'admin'? 'selected': ''}}>Admin</option>
                                         <option value="guru" {{ $users->role == 'guru'? 'selected': ''}}>Guru</option>
                                         <option value="siswa" {{ $users->role == 'siswa'? 'selected': ''}}>Siswa</option>

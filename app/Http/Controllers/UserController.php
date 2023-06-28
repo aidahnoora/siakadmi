@@ -39,6 +39,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
                 'siswa_nis' => $request->siswa_nis,
+                'guru_nip' => $request->guru_nip,
             ]);
 
             return redirect('user')->with('success', 'Data berhasil ditambahkan!');
@@ -60,7 +61,6 @@ class UserController extends Controller
             $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required',
-                'password',
                 'role' => 'required'
             ]);
 
@@ -72,6 +72,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
                 'siswa_nis' => $request->siswa_nis,
+                'guru_nip' => $request->guru_nip,
             ];
 
             $post->update($post_data);

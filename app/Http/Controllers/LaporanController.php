@@ -9,6 +9,7 @@ use App\Models\Mapel;
 use App\Models\Nilai;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
@@ -42,7 +43,11 @@ class LaporanController extends Controller
 
     public function absensi()
     {
-        $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        if (Auth::user()->role == 'guru') {
+            $kelass = Kelas::where('guru_nip', Auth::user()->guru_nip)->orderBy('nama_kelas', 'ASC')->get();
+        } else {
+            $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        }
 
         return view('pages.laporan.index_absensi', compact('kelass'));
     }
@@ -57,7 +62,11 @@ class LaporanController extends Controller
 
     public function nilai()
     {
-        $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        if (Auth::user()->role == 'guru') {
+            $kelass = Kelas::where('guru_nip', Auth::user()->guru_nip)->orderBy('nama_kelas', 'ASC')->get();
+        } else {
+            $kelass = Kelas::orderBy('nama_kelas', 'ASC')->get();
+        }
 
         return view('pages.laporan.index_nilai', compact('kelass'));
     }
